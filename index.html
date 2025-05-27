@@ -4,93 +4,112 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>₹40 UPI Offer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
-      margin: 0;
-      font-family: sans-serif;
-      background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+      background: linear-gradient(135deg, #8e2de2, #4a00e0);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
     }
 
-    .container {
-      background: #fff;
-      padding: 25px;
-      border-radius: 10px;
-      text-align: center;
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
       width: 90%;
       max-width: 400px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 16px;
     }
 
     input {
       width: 100%;
       padding: 12px;
-      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 8px;
+      margin-bottom: 16px;
       font-size: 16px;
     }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
+    .submit-btn {
+      background: linear-gradient(90deg, #06beb6, #8e54e9);
       color: white;
-      font-size: 16px;
       border: none;
+      padding: 12px;
+      width: 100%;
       border-radius: 8px;
+      font-size: 16px;
       cursor: pointer;
-      margin-bottom: 10px;
+      font-weight: bold;
+      transition: background 0.3s;
     }
 
-    .download-btn {
-      background-color: #28a745;
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
-    ul {
+    .steps {
       text-align: left;
       font-size: 14px;
       color: #555;
-      padding-left: 20px;
+      margin-top: 20px;
     }
 
-    .footer {
-      font-size: 13px;
-      margin-top: 20px;
-      color: #eee;
+    .steps li {
+      margin-bottom: 10px;
+    }
+
+    .brand {
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Register & Deposit<br>Get ₹40 UPI Cash Instant</h2>
-    <input type="text" id="upiId" placeholder="Enter Your UPI ID" />
-    <button onclick="submitUPI()">Submit</button>
+  <div class="card">
+    <h2>Deposit & Get ₹40 UPI Cash Instant</h2>
+    <input type="text" id="upi" placeholder="Enter Your UPI ID">
+    <button id="submitBtn" class="submit-btn" onclick="submitUPI()">SUBMIT</button>
+    <div class="brand">NestEarn – Paytm Ludo</div>
 
-    <a href="https://api.frizza.in/api/v1/5970C9C6D0ACf9g7eC9jg5ef76gh:A7jf" target="_blank">
-      <button class="download-btn">Download & Open App</button>
-    </a>
-
-    <ul>
-      <li>1. Enter UPI ID and click Submit</li>
+    <ul class="steps">
+      <li>1. Enter Your UPI ID & click Submit</li>
       <li>2. Install & Open App (₹1 Tracking)</li>
       <li>3. Register & Deposit</li>
-      <li>4. Get ₹40 UPI Cash</li>
+      <li>4. Done! You will get ₹40 UPI Cash</li>
     </ul>
   </div>
 
   <script>
     function submitUPI() {
-      const upi = document.getElementById("upiId").value;
-      if (upi === "") {
+      const upi = document.getElementById("upi").value.trim();
+      const button = document.getElementById("submitBtn");
+
+      if (!upi) {
         alert("Please enter your UPI ID.");
-      } else {
-        alert("UPI ID Submitted: " + upi);
-        // এখানে তুমি চাইলে এই UPI ID কোথাও পাঠাতে পারো
+        return;
       }
+
+      // Show loading
+      button.innerText = "Loading...";
+      button.disabled = true;
+
+      // Redirect after short delay
+      setTimeout(() => {
+        window.location.href = "https://api.frizza.in/api/v1/5970C9C6D0ACf9g7eC9jg5ef76gh:A7jf";
+      }, 1000);
     }
   </script>
 </body>
