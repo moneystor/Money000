@@ -49,6 +49,11 @@
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .app-button {
+      background-color: #28a745;
     }
 
     ul {
@@ -73,6 +78,10 @@
     <input type="text" id="upiId" placeholder="Enter Your UPI ID" />
     <button onclick="submitUPI()">Submit</button>
 
+    <a href="https://api.frizza.in/api/v1/5970C9C6D0ACf9g7eC9jg5ef76gh:A7jf" target="_blank">
+      <button class="app-button">Download & Open App</button>
+    </a>
+
     <ul>
       <li>1. Enter UPI ID and click Submit</li>
       <li>2. Install & Open App (₹1 Tracking)</li>
@@ -93,9 +102,9 @@
         alert("Please enter your UPI ID");
       } else {
         alert("UPI ID submitted: " + upi);
-        // Backend integration can go here
+        // Backend integration goes here if needed
       }
     }
   </script>
 </body>
-</html>https://api.frizza.in/api/v1/5970C9C6D0ACf9g7eC9jg5ef76gh:A7jf
+</html>
