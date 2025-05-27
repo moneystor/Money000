@@ -1,74 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>₹40 UPI Cash Offer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>₹40 UPI Offer</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: sans-serif;
       background: linear-gradient(to bottom right, #6a11cb, #2575fc);
       display: flex;
-      align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      align-items: center;
+      height: 100vh;
     }
 
     .container {
-      background: white;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      text-align: center;
       width: 90%;
       max-width: 400px;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      color: #333;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     input {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
-      border-radius: 8px;
       border: 1px solid #ccc;
+      border-radius: 8px;
       font-size: 16px;
     }
 
     button {
-      background: linear-gradient(to right, #00c6ff, #0072ff);
-      color: white;
-      padding: 12px 0;
-      border: none;
       width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
       font-size: 16px;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
-    .app-button {
+    .download-btn {
       background-color: #28a745;
     }
 
     ul {
       text-align: left;
-      margin-top: 20px;
-      padding-left: 18px;
-      color: #555;
       font-size: 14px;
+      color: #555;
+      padding-left: 20px;
     }
 
     .footer {
-      margin-top: 20px;
       font-size: 13px;
+      margin-top: 20px;
       color: #eee;
-      text-align: center;
     }
   </style>
 </head>
@@ -79,7 +71,7 @@
     <button onclick="submitUPI()">Submit</button>
 
     <a href="https://api.frizza.in/api/v1/5970C9C6D0ACf9g7eC9jg5ef76gh:A7jf" target="_blank">
-      <button class="app-button">Download & Open App</button>
+      <button class="download-btn">Download & Open App</button>
     </a>
 
     <ul>
@@ -90,19 +82,14 @@
     </ul>
   </div>
 
-  <div class="footer">
-    Payment Type: UPI<br>
-    Payment Time: Instant
-  </div>
-
   <script>
     function submitUPI() {
       const upi = document.getElementById("upiId").value;
-      if (!upi) {
-        alert("Please enter your UPI ID");
+      if (upi === "") {
+        alert("Please enter your UPI ID.");
       } else {
-        alert("UPI ID submitted: " + upi);
-        // Backend integration goes here if needed
+        alert("UPI ID Submitted: " + upi);
+        // এখানে তুমি চাইলে এই UPI ID কোথাও পাঠাতে পারো
       }
     }
   </script>
