@@ -3,59 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register & Get ₹40</title>
+  <title>Deposit & Get ₹40 UPI Cash</title>
   <style>
     body {
-      background: linear-gradient(to right, #6a11cb, #2575fc);
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      color: white;
-      text-align: center;
-      padding: 50px 20px;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    .box {
-      background-color: white;
-      color: #333;
-      padding: 30px;
-      border-radius: 15px;
+    .container {
+      background: #fff;
+      padding: 30px 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
       max-width: 400px;
-      margin: auto;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
     }
     input[type="text"] {
+      padding: 10px;
       width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
       border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 20px;
       font-size: 16px;
     }
-    .submit-btn {
-      margin-top: 20px;
-      padding: 12px 30px;
-      font-size: 16px;
+    button {
       background: linear-gradient(to right, #fc466b, #3f5efb);
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s;
-    }
-    .submit-btn:disabled {
-      background: #999;
-      cursor: not-allowed;
+      width: 100%;
     }
     .steps {
+      margin-top: 20px;
+      color: #999;
+      font-size: 14px;
       text-align: left;
-      margin-top: 30px;
-      color: #eee;
     }
   </style>
 </head>
 <body>
-  <div class="box">
+  <div class="container">
     <h2>Deposit & Get ₹40 UPI Cash Instant</h2>
-    <input type="text" id="upi" placeholder="Enter Your UPI ID (e.g. 1234567890@ibl)">
-    <button id="submitBtn" class="submit-btn" onclick="submitUPI()">SUBMIT</button>
+    <input type="text" id="upi" placeholder="Enter Your UPI ID" />
+    <button onclick="handleSubmit()">SUBMIT</button>
     <div class="steps">
       <p>1. Enter your UPI ID & click Submit</p>
       <p>2. Install & open the app</p>
@@ -65,26 +68,14 @@
   </div>
 
   <script>
-    function validateUPI(upi) {
-      const upiRegex = /^[\w.\-]{2,}@[\w]{2,}$/;
-      return upiRegex.test(upi);
-    }
-
-    function submitUPI() {
-      const upi = document.getElementById("upi").value.trim();
-      const button = document.getElementById("submitBtn");
-
-      if (!validateUPI(upi)) {
-        alert("Please enter a valid UPI ID (e.g. 1234567890@ibl)");
-        return;
+    function handleSubmit() {
+      const upi = document.getElementById("upi").value;
+      if (upi.trim() === "") {
+        alert("Please enter your UPI ID");
+      } else {
+        // Put your form submission logic here
+        alert("Submitted: " + upi);
       }
-
-      button.innerText = "Loading...";
-      button.disabled = true;
-
-      setTimeout(() => {
-        window.location.href = "https://api.frizza.in/api/v1/5970C9C6D0ACf9g7eC9jg5ef76gh:A7jf";
-      }, 1000);
     }
   </script>
 </body>
