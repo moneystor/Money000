@@ -3,79 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Deposit & Get ₹40 UPI Cash</title>
+  <title>Deposit Offer</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #4e00c2, #00c6ff);
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #6a11cb, #2575fc);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
     .container {
-      background: #fff;
-      padding: 30px 20px;
+      background: white;
       border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      max-width: 350px;
       text-align: center;
-      width: 90%;
-      max-width: 400px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .container img {
+      width: 100px;
+      margin-bottom: 15px;
     }
     h2 {
-      margin-bottom: 20px;
-      color: #333;
+      margin-top: 0;
     }
-    input[type="text"] {
-      padding: 10px;
+    input {
       width: 100%;
+      padding: 12px;
+      margin: 15px 0;
       border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 20px;
+      border-radius: 8px;
       font-size: 16px;
     }
     button {
-      background: linear-gradient(to right, #fc466b, #3f5efb);
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 10px;
-      cursor: pointer;
+      background: linear-gradient(to right, #f44336, #3f51b5);
+      color: white;
+      padding: 12px 0;
       width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
     }
-    .steps {
-      margin-top: 20px;
+    button:hover {
+      opacity: 0.9;
+    }
+    p {
       color: #999;
+      margin-top: 10px;
       font-size: 14px;
-      text-align: left;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Logo Image -->
+    <img src="kuku-logo.jpg" alt="KukuFM Logo" />
+    
     <h2>Deposit & Get ₹40 UPI Cash Instant</h2>
-    <input type="text" id="upi" placeholder="Enter Your UPI ID" />
-    <button onclick="handleSubmit()">SUBMIT</button>
-    <div class="steps">
-      <p>1. Enter your UPI ID & click Submit</p>
-      <p>2. Install & open the app</p>
-      <p>3. Register & deposit</p>
-      <p>Done! You'll get ₹40 UPI Cash</p>
-    </div>
+    <input type="text" placeholder="Enter Your UPI ID" id="upi" />
+    <button onclick="submitUPI()">SUBMIT</button>
+    <p>1. Enter your UPI ID & click Submit</p>
+    <p>2. Install & open the app</p>
+    <p>3. Register & deposit</p>
+    <p>Done! You'll get ₹40 UPI Cash</p>
   </div>
 
   <script>
-    function handleSubmit() {
-      const upi = document.getElementById("upi").value;
-      if (upi.trim() === "") {
-        alert("Please enter your UPI ID");
-      } else {
-        // Put your form submission logic here
-        alert("Submitted: " + upi);
+    function submitUPI() {
+      const upi = document.getElementById('upi').value;
+      if (!upi || !upi.includes('@')) {
+        alert("Please enter a valid UPI ID.");
+        return;
       }
+      // API call or redirection logic here
+      alert("Submitted: " + upi);
     }
   </script>
 </body>
