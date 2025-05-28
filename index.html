@@ -1,165 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Google Redeem Code Generator</title>
+  <title>Google Redeem Code</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
       background: linear-gradient(to right, #8e2de2, #4a00e0);
       font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
+      zoom: 80%; /* Zoom কমানো হয়েছে */
     }
 
     .container {
       background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 20px;
+      border-radius: 20px;
       text-align: center;
-      width: 300px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
 
-    h3 {
-      margin-top: 0;
-      background: #eee;
-      padding: 10px;
-      border-radius: 8px;
-    }
-
-    img {
-      width: 100px;
-      margin: 20px 0;
-    }
-
-    button {
+    .btn {
       padding: 10px 20px;
-      font-size: 16px;
-      margin-top: 10px;
+      background-color: limegreen;
+      color: white;
       border: none;
       border-radius: 20px;
-      background-color: #00cc00;
-      color: #fff;
+      font-size: 16px;
       cursor: pointer;
+      margin: 10px 0;
     }
 
-    button:disabled {
-      background-color: #888;
+    .btn:disabled {
+      background-color: #ccc;
       cursor: not-allowed;
     }
 
     .spinner {
-      display: inline-block;
-      width: 15px;
-      height: 15px;
-      border: 2px solid #fff;
-      border-top: 2px solid transparent;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #fff;
       border-radius: 50%;
+      width: 14px;
+      height: 14px;
       animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
       margin-left: 8px;
     }
 
     @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    .code-box {
-      margin-top: 15px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      background: #f9f9f9;
-    }
-
-    .copy-btn {
-      margin-top: 10px;
-    }
-
-    #verifyBtn {
-      display: none;
-    }
-
-    a {
-      display: block;
-      margin: 10px 0;
-      color: #000;
+    #codeOutput {
       font-weight: bold;
-      text-decoration: underline;
+      margin-top: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h3>Google Redeem Code</h3>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Google_Play_2016_icon.svg" alt="Google Play" />
-    <a href="#">Redeem Code</a>
-    <button id="generateBtn" onclick="generateCode()">Generate</button>
-    <button id="verifyBtn" onclick="verifyCode()">Verify</button>
-
-    <div id="codeSection" style="display: none;">
-      <h3>Redeem Code Generated</h3>
-      <div class="code-box" id="codeBox">XXXX-XXXX-XXXX</div>
-      <button class="copy-btn" onclick="copyCode()">COPY</button>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Google_Play_2016_icon.svg/1024px-Google_Play_2016_icon.svg.png" width="80">
+    <br><br>
+    <button class="btn" id="generateBtn" onclick="generateCode()">Redeem Code</button><br>
+    <button class="btn" id="verifyBtn" onclick="verifyCode()" style="display: none;">Verify</button><br>
+    <div id="codeBox" style="display: none;">
+      <label>Redeem Code Generated</label><br>
+      <div id="codeOutput">VKPR-4SH4-49U1</div><br>
+      <button class="btn" onclick="copyCode()">COPY</button>
     </div>
   </div>
 
   <script>
+    window.onload = function () {
+      if (localStorage.getItem("showVerify") === "true") {
+        document.getElementById("verifyBtn").style.display = "inline-block";
+      }
+    }
+
     function generateCode() {
       const btn = document.getElementById("generateBtn");
       btn.disabled = true;
-      btn.innerHTML = 'Loading... <div class="spinner"></div>';
+      btn.innerHTML = 'Loading <div class="spinner"></div>';
+
+      // ✅ Set localStorage first
       localStorage.setItem("showVerify", "true");
 
+      // ✅ Wait 2 seconds before redirect
       setTimeout(() => {
         window.location.href = "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
       }, 2000);
     }
 
     function verifyCode() {
-      const btn = document.getElementById("verifyBtn");
-      btn.disabled = true;
-      btn.innerHTML = 'Verifying... <div class="spinner"></div>';
+      document.getElementById("codeBox").style.display = "block";
+      document.getElementById("verifyBtn").disabled = true;
+      document.getElementById("verifyBtn").innerHTML = 'Verifying <div class="spinner"></div>';
 
       setTimeout(() => {
-        document.getElementById("codeSection").style.display = "block";
-        document.getElementById("codeBox").innerText = generateRandomCode();
-        btn.innerHTML = "Verify";
-        btn.disabled = false;
-      }, 2000);
-    }
-
-    function generateRandomCode() {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let code = "";
-      for (let i = 0; i < 12; i++) {
-        if (i > 0 && i % 4 === 0) code += "-";
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return code;
+        document.getElementById("verifyBtn").innerHTML = 'Verified ✅';
+        document.getElementById("verifyBtn").style.backgroundColor = "gray";
+      }, 1500);
     }
 
     function copyCode() {
-      const code = document.getElementById("codeBox").innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        alert("Code copied to clipboard!");
-      });
+      const code = document.getElementById("codeOutput").textContent;
+      navigator.clipboard.writeText(code);
+      alert("Code Copied: " + code);
     }
-
-    window.onload = () => {
-      const showVerify = localStorage.getItem("showVerify");
-      if (showVerify === "true") {
-        document.getElementById("generateBtn").style.display = "none";
-        document.getElementById("verifyBtn").style.display = "inline-block";
-      }
-    };
   </script>
 </body>
 </html>
