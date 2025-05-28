@@ -2,76 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Redeem Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Google Redeem Code Generator</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #8f00ff, #3300ff);
       font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #8000ff, #002fff);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
-    .box {
+
+    .container {
       background: white;
+      border-radius: 30px;
       padding: 30px;
-      border-radius: 20px;
-      text-align: center;
       width: 300px;
-    }
-    h2 {
-      background: #ddd;
-      padding: 10px;
-      border-radius: 10px;
-    }
-    input {
-      margin: 20px 0;
-      padding: 10px;
-      width: 100%;
-      border-radius: 20px;
-      font-size: 16px;
       text-align: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
-    button {
-      background: #00ff00;
-      padding: 10px 20px;
-      font-size: 18px;
+
+    .title {
+      background: #eee;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .play-logo {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+
+    .code-label {
       font-weight: bold;
+      text-decoration: underline;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: lime;
+      color: black;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 10px 20px;
+      margin: 10px auto;
       border: none;
-      border-radius: 20px;
+      border-radius: 30px;
       cursor: pointer;
+      width: 80%;
+    }
+
+    .code-box {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 18px;
+      border: 2px solid #ccc;
+      border-radius: 20px;
+      background: #f8f8f8;
+      min-height: 30px;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="title">Google Redeem Code</div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" class="play-logo" alt="Play Logo">
+    <div class="code-label">Redeem Code</div>
+    <button class="button" onclick="generateCode()">Generate</button>
+    <button class="button" onclick="verifyCode()">Verify</button>
+    <div id="codeBox" class="code-box"></div>
+    <button class="button" onclick="copyCode()">COPY</button>
+  </div>
 
-<div class="box">
-  <h2>Redeem Code Generated</h2>
-  <input type="text" id="codeBox" readonly>
-  <button onclick="copyCode()">COPY</button>
-</div>
+  <script>
+    let currentCode = "";
 
-<script>
-  // কোড জেনারেট ফাংশন
-  function generateCode() {
-    return 'GC-' + Math.random().toString(36).substring(2, 10).toUpperCase();
-  }
+    function generateCode() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      currentCode = "";
+      for (let i = 0; i < 16; i++) {
+        currentCode += chars[Math.floor(Math.random() * chars.length)];
+        if ((i + 1) % 4 === 0 && i !== 15) currentCode += "-";
+      }
+      document.getElementById("codeBox").innerText = currentCode;
+    }
 
-  // কোড ইনপুটে দেখাও
-  const code = generateCode();
-  document.getElementById('codeBox').value = code;
+    function verifyCode() {
+      if (currentCode) {
+        alert("Code verified ✅");
+      } else {
+        alert("Please generate a code first!");
+      }
+    }
 
-  // কপি ফাংশন
-  function copyCode() {
-    const codeInput = document.getElementById('codeBox');
-    codeInput.select();
-    codeInput.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(codeInput.value);
-    alert("Code copied: " + codeInput.value);
-  }
-</script>
-
+    function copyCode() {
+      if (!currentCode) {
+        alert("No code to copy!");
+        return;
+      }
+      navigator.clipboard.writeText(currentCode);
+      alert("Code copied to clipboard!");
+    }
+  </script>
 </body>
 </html>
