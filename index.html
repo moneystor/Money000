@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Redeem Code</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #8e2de2, #4a00e0);
+      font-family: sans-serif;
+      background: linear-gradient(to right, #8000ff, #3333ff);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,90 +15,94 @@
     }
 
     .container {
-      background-color: #fff;
+      background: white;
       border-radius: 20px;
-      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
       width: 90%;
       max-width: 400px;
-      padding: 30px;
-      text-align: center;
     }
 
-    h2, h3 {
-      margin: 10px 0;
+    .title {
+      background: #eee;
+      border-radius: 12px;
+      display: inline-block;
+      padding: 8px 16px;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 100px;
+      margin: 20px 0;
+    }
+
+    .subtitle {
+      font-weight: bold;
+      font-size: 22px;
+      text-decoration: underline;
+      margin-bottom: 20px;
     }
 
     .btn {
-      background-color: #00FF00;
+      background-color: limegreen;
       color: black;
       border: none;
-      padding: 15px 30px;
       border-radius: 30px;
-      font-size: 20px;
+      padding: 15px 30px;
+      font-size: 22px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 20px;
+      transition: background 0.3s;
     }
 
-    .loading {
+    .btn:hover {
+      background-color: #00cc00;
+    }
+
+    #verifyBtn {
       display: none;
-      margin-top: 20px;
-    }
-
-    .spinner {
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #4a00e0;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <div class="container" id="install-section">
-    <h2>Install App to Continue</h2>
-    <button class="btn" onclick="installApp()">Install & Sign Up</button>
-  </div>
-
-  <div class="container" id="redeem-section" style="display: none;">
-    <h3>Google Redeem Code</h3>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" width="100" alt="Play Logo">
-    <h2><u>Redeem Code</u></h2>
-    <button class="btn" onclick="startLoading()">verify</button>
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <p>Verifying...</p>
-    </div>
+  <div class="container">
+    <div class="title">Google Redeem Code</div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" class="logo" alt="Google Play">
+    <div class="subtitle">Redeem Code</div>
+    
+    <button id="generateBtn" class="btn">Generate</button>
+    <button id="verifyBtn" class="btn">Verify</button>
   </div>
 
   <script>
-    function installApp() {
-      localStorage.setItem('appInstalled', 'yes');
-      window.location.href = "https://play.google.com/store/apps/details?id=your.app.id";
+    // Check if user returned from app
+    const fromApp = new URLSearchParams(window.location.search).get("fromApp");
+    const hasReturned = localStorage.getItem("hasReturnedFromApp");
+
+    if (fromApp === "true" || hasReturned === "yes") {
+      document.getElementById("generateBtn").style.display = "none";
+      document.getElementById("verifyBtn").style.display = "inline-block";
+      localStorage.setItem("hasReturnedFromApp", "yes");
     }
 
-    function startLoading() {
-      document.getElementById('loading').style.display = 'block';
-      // Simulate verification
+    // Generate button action
+    document.getElementById("generateBtn").onclick = function () {
+      // Redirect to Play Store or app link
+      window.location.href = "https://play.google.com/store/apps/details?id=com.example.app";
+
+      // OPTIONAL: fallback timer to store return state
       setTimeout(() => {
-        document.getElementById('loading').style.display = 'none';
-        alert("Verification complete! Code unlocked.");
-      }, 3000);
-    }
+        localStorage.setItem("hasReturnedFromApp", "yes");
+      }, 5000);
+    };
 
-    window.onload = function () {
-      if (localStorage.getItem('appInstalled') === 'yes') {
-        document.getElementById('install-section').style.display = 'none';
-        document.getElementById('redeem-section').style.display = 'block';
-      }
-    }
+    // Verify button action (you can change this)
+    document.getElementById("verifyBtn").onclick = function () {
+      alert("Verification started...");
+      // Add verification logic here
+    };
   </script>
 </body>
 </html>
