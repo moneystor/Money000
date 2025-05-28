@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Redeem Generator</title>
   <style>
     body {
@@ -13,6 +12,7 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      zoom: 80%;
     }
 
     .container {
@@ -20,9 +20,7 @@
       padding: 30px;
       border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
     h3 {
@@ -58,12 +56,8 @@
     }
 
     @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     #codeBox {
@@ -79,33 +73,20 @@
       padding: 10px;
       border-radius: 10px;
       margin: 10px 0;
-      word-wrap: break-word;
     }
 
     #resetBtn {
       display: none;
     }
-
-    @media (max-width: 600px) {
-      .btn {
-        font-size: 14px;
-        padding: 8px 18px;
-      }
-
-      #codeOutput {
-        font-size: 16px;
-      }
-    }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h3>🎁 Google Redeem Code</h3>
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Google_Play_2016_icon.svg/1024px-Google_Play_2016_icon.svg.png"
-      width="80"
-      alt="Google Play Icon"
-    />
+    
+    <!-- Updated Image -->
+    <img src="https://i.ibb.co/chgN9wvR/google-play-store-logo-1273375-804.jpg" width="80" alt="Google Play Store Logo">
 
     <div id="buttons">
       <button class="btn" id="generateBtn" onclick="generateCode()">Generate</button>
@@ -118,7 +99,7 @@
       <button class="btn" onclick="copyCode()">COPY</button>
     </div>
 
-    <br />
+    <br>
     <button class="btn" id="resetBtn" onclick="resetStorage()" style="background-color: #dc3545;">🔄 Reset</button>
   </div>
 
@@ -128,7 +109,7 @@
         document.getElementById("generateBtn").style.display = "none";
         document.getElementById("verifyBtn").style.display = "inline-block";
       }
-    };
+    }
 
     function generateCode() {
       const btn = document.getElementById("generateBtn");
@@ -137,8 +118,7 @@
       localStorage.setItem("showVerify", "true");
 
       setTimeout(() => {
-        window.location.href =
-          "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
+        window.location.href = "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
       }, 2000);
     }
 
@@ -149,7 +129,7 @@
 
       setTimeout(() => {
         document.getElementById("codeBox").style.display = "block";
-        btn.innerHTML = "Verified ✅";
+        btn.innerHTML = 'Verified ✅';
         btn.style.backgroundColor = "#555";
       }, 1500);
     }
@@ -165,5 +145,6 @@
       location.reload();
     }
   </script>
+
 </body>
 </html>
