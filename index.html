@@ -1,177 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Google Redeem Code</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #8000ff, #3333ff);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      transform: scale(0.85); /* Zoom effect */
+<script>
+  function generateCode() {
+    const btn = document.getElementById("generateBtn");
+    btn.disabled = true;
+    btn.innerHTML = 'Loading... <div class="spinner"></div>';
+
+    // লোকাল স্টোরেজে ভেরিফাই স্টেট সেট করো
+    localStorage.setItem("showVerify", "true");
+
+    setTimeout(() => {
+      // Redirect to Play Store
+      window.location.href = "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
+    }, 2000);
+  }
+
+  function verifyCode() {
+    const btn = document.getElementById("verifyBtn");
+    btn.disabled = true;
+    btn.innerHTML = 'Verifying... <div class="spinner"></div>';
+
+    setTimeout(() => {
+      document.getElementById("codeSection").style.display = "block";
+      document.getElementById("codeBox").innerText = generateRandomCode();
+      btn.innerHTML = "Verify";
+      btn.disabled = false;
+    }, 2000);
+  }
+
+  function generateRandomCode() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let code = "";
+    for (let i = 0; i < 12; i++) {
+      if (i > 0 && i % 4 === 0) code += "-";
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
     }
+    return code;
+  }
 
-    .container {
-      background: #fff;
-      border-radius: 20px;
-      padding: 30px 20px;
-      width: 280px;
-      text-align: center;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  function copyCode() {
+    const code = document.getElementById("codeBox").innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      alert("Code copied to clipboard!");
+    });
+  }
+
+  // ✅ পেজ লোড হলে লোকাল স্টোরেজ চেক করো
+  window.onload = () => {
+    const showVerify = localStorage.getItem("showVerify");
+    if (showVerify === "true") {
+      document.getElementById("generateBtn").style.display = "none";
+      document.getElementById("verifyBtn").style.display = "inline-block";
     }
-
-    .title {
-      font-size: 18px;
-      font-weight: bold;
-      background: #eee;
-      padding: 6px 10px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    img {
-      width: 80px;
-    }
-
-    .label {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 15px 0;
-      text-decoration: underline;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: #00e600;
-      color: #000;
-      font-size: 18px;
-      font-weight: bold;
-      padding: 8px 20px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      min-width: 100px;
-    }
-
-    .spinner {
-      border: 3px solid #fff;
-      border-top: 3px solid #000;
-      border-radius: 50%;
-      width: 14px;
-      height: 14px;
-      animation: spin 1s linear infinite;
-      margin-left: 10px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    #codeSection {
-      margin-top: 20px;
-      display: none;
-    }
-
-    .code-box {
-      background: #fff;
-      border-radius: 30px;
-      border: 1px solid #ccc;
-      padding: 8px 16px;
-      width: 80%;
-      margin: 10px auto;
-      font-size: 16px;
-    }
-
-    .copy-btn {
-      margin-top: 10px;
-      background: #00e600;
-      color: #000;
-      font-size: 18px;
-      font-weight: bold;
-      padding: 8px 20px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="container">
-    <div class="title" id="stepTitle">Google Redeem Code</div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Play Store Logo">
-    <div class="label">Redeem Code</div>
-
-    <button class="button" id="generateBtn" onclick="generateCode()">Generate</button>
-    <button class="button" id="verifyBtn" onclick="verifyCode()" style="display:none;">Verify</button>
-
-    <div id="codeSection">
-      <div class="title">Redeem Code Generated</div>
-      <div class="code-box" id="codeBox">XXXX-XXXX-XXXX</div>
-      <button class="copy-btn" onclick="copyCode()">COPY</button>
-    </div>
-  </div>
-
-  <script>
-    function generateCode() {
-      const btn = document.getElementById("generateBtn");
-      btn.disabled = true;
-      btn.innerHTML = 'Loading... <div class="spinner"></div>';
-
-      setTimeout(() => {
-        // Redirect to Play Store
-        window.location.href = "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
-      }, 2000);
-    }
-
-    function verifyCode() {
-      const btn = document.getElementById("verifyBtn");
-      btn.disabled = true;
-      btn.innerHTML = 'Verifying... <div class="spinner"></div>';
-
-      setTimeout(() => {
-        document.getElementById("codeSection").style.display = "block";
-        document.getElementById("codeBox").innerText = generateRandomCode();
-        btn.innerHTML = "Verify";
-        btn.disabled = false;
-      }, 2000);
-    }
-
-    function generateRandomCode() {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let code = "";
-      for (let i = 0; i < 12; i++) {
-        if (i > 0 && i % 4 === 0) code += "-";
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return code;
-    }
-
-    function copyCode() {
-      const code = document.getElementById("codeBox").innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        alert("Code copied to clipboard!");
-      });
-    }
-
-    // If ?verified=true, show Verify button
-    window.onload = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('verified') === 'true') {
-        document.getElementById("generateBtn").style.display = "none";
-        document.getElementById("verifyBtn").style.display = "inline-block";
-      }
-    };
-  </script>
-
-</body>
-</html>
+  };
+    </script>
+    
