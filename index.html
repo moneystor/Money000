@@ -35,7 +35,7 @@
       border-radius: 25px;
       font-size: 16px;
       cursor: pointer;
-      margin: 10px 0;
+      margin: 10px 5px;
     }
 
     .btn:disabled {
@@ -79,9 +79,9 @@
 <body>
 
   <div class="container">
-    <h3>Google Redeem Code</h3>
+    <h3>🎁 Google Redeem Code</h3>
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Google_Play_2016_icon.svg/1024px-Google_Play_2016_icon.svg.png" width="80">
-    
+
     <div id="buttons">
       <button class="btn" id="generateBtn" onclick="generateCode()">Generate</button>
       <button class="btn" id="verifyBtn" onclick="verifyCode()" style="display: none;">Verify</button>
@@ -92,6 +92,9 @@
       <div id="codeOutput">VKPR-4SH4-49U1</div>
       <button class="btn" onclick="copyCode()">COPY</button>
     </div>
+
+    <br>
+    <button class="btn" onclick="resetStorage()" style="background-color: #dc3545;">🔄 Reset</button>
   </div>
 
   <script>
@@ -107,10 +110,10 @@
       btn.disabled = true;
       btn.innerHTML = 'Redirecting <div class="spinner"></div>';
 
-      // ✅ Save to localStorage before redirect
+      // Save to localStorage before redirect
       localStorage.setItem("showVerify", "true");
 
-      // ✅ Delay before going to Play Store
+      // Delay before going to Play Store
       setTimeout(() => {
         window.location.href = "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
       }, 2000);
@@ -132,6 +135,11 @@
       const code = document.getElementById("codeOutput").textContent;
       navigator.clipboard.writeText(code);
       alert("Code Copied: " + code);
+    }
+
+    function resetStorage() {
+      localStorage.removeItem("showVerify");
+      location.reload();
     }
   </script>
 
