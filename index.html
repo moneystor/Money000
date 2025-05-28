@@ -2,107 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Google Redeem Code</title>
+  <title>Redeem Code</title>
   <style>
     body {
       margin: 0;
-      font-family: sans-serif;
-      background: linear-gradient(to right, #8000ff, #3333ff);
+      padding: 0;
+      background: linear-gradient(to right, #8f00ff, #3300ff);
+      font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
-
-    .container {
+    .box {
       background: white;
+      padding: 30px;
       border-radius: 20px;
-      padding: 40px;
       text-align: center;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      width: 90%;
-      max-width: 400px;
+      width: 300px;
     }
-
-    .title {
-      background: #eee;
-      border-radius: 12px;
-      display: inline-block;
-      padding: 8px 16px;
-      font-size: 20px;
-      margin-bottom: 20px;
+    h2 {
+      background: #ddd;
+      padding: 10px;
+      border-radius: 10px;
     }
-
-    .logo {
-      width: 100px;
+    input {
       margin: 20px 0;
+      padding: 10px;
+      width: 100%;
+      border-radius: 20px;
+      font-size: 16px;
+      text-align: center;
     }
-
-    .subtitle {
+    button {
+      background: #00ff00;
+      padding: 10px 20px;
+      font-size: 18px;
       font-weight: bold;
-      font-size: 22px;
-      text-decoration: underline;
-      margin-bottom: 20px;
-    }
-
-    .btn {
-      background-color: limegreen;
-      color: black;
       border: none;
-      border-radius: 30px;
-      padding: 15px 30px;
-      font-size: 22px;
-      font-weight: bold;
+      border-radius: 20px;
       cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #00cc00;
-    }
-
-    #verifyBtn {
-      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="title">Google Redeem Code</div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" class="logo" alt="Google Play">
-    <div class="subtitle">Redeem Code</div>
-    
-    <button id="generateBtn" class="btn">Generate</button>
-    <button id="verifyBtn" class="btn">Verify</button>
-  </div>
 
-  <script>
-    // Check if user returned from app
-    const fromApp = new URLSearchParams(window.location.search).get("fromApp");
-    const hasReturned = localStorage.getItem("hasReturnedFromApp");
+<div class="box">
+  <h2>Redeem Code Generated</h2>
+  <input type="text" id="codeBox" readonly>
+  <button onclick="copyCode()">COPY</button>
+</div>
 
-    if (fromApp === "true" || hasReturned === "yes") {
-      document.getElementById("generateBtn").style.display = "none";
-      document.getElementById("verifyBtn").style.display = "inline-block";
-      localStorage.setItem("hasReturnedFromApp", "yes");
-    }
+<script>
+  // কোড জেনারেট ফাংশন
+  function generateCode() {
+    return 'GC-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+  }
 
-    // Generate button action
-    document.getElementById("generateBtn").onclick = function () {
-      // Redirect to Play Store or app link
-      window.location.href = "https://play.google.com/store/apps/details?id=com.example.app";
+  // কোড ইনপুটে দেখাও
+  const code = generateCode();
+  document.getElementById('codeBox').value = code;
 
-      // OPTIONAL: fallback timer to store return state
-      setTimeout(() => {
-        localStorage.setItem("hasReturnedFromApp", "yes");
-      }, 5000);
-    };
+  // কপি ফাংশন
+  function copyCode() {
+    const codeInput = document.getElementById('codeBox');
+    codeInput.select();
+    codeInput.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(codeInput.value);
+    alert("Code copied: " + codeInput.value);
+  }
+</script>
 
-    // Verify button action (you can change this)
-    document.getElementById("verifyBtn").onclick = function () {
-      alert("Verification started...");
-      // Add verification logic here
-    };
-  </script>
 </body>
 </html>
