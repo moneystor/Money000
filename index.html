@@ -2,115 +2,179 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Redeem Code</title>
   <style>
     body {
-      background: linear-gradient(to right, purple, blue);
-      font-family: sans-serif;
-      text-align: center;
-      color: black;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #8000ff, #3333ff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
+
     .container {
-      background: white;
+      background: #fff;
       border-radius: 20px;
-      margin: 40px auto;
-      padding: 30px;
-      max-width: 350px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      padding: 40px 20px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
-    .header, .status-text {
-      background: #eee;
-      border-radius: 12px;
-      padding: 10px;
-      margin-bottom: 20px;
+
+    .title {
       font-size: 20px;
       font-weight: bold;
+      background: #eee;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
     }
+
     img {
       width: 100px;
     }
-    h2 {
-      margin: 15px 0;
-    }
-    button {
-      background: limegreen;
-      color: black;
-      padding: 12px 30px;
+
+    .label {
       font-size: 20px;
+      font-weight: bold;
+      margin: 20px 0;
+      text-decoration: underline;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #00e600;
+      color: #000;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .button:disabled {
+      background: #b3ffb3;
+      cursor: wait;
+    }
+
+    .spinner {
+      border: 3px solid #fff;
+      border-top: 3px solid #000;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #codeSection {
+      margin-top: 30px;
+      display: none;
+    }
+
+    .code-box {
+      background: #fff;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      padding: 10px 20px;
+      width: 80%;
+      margin: 10px auto;
+      font-size: 18px;
+    }
+
+    .copy-btn {
+      margin-top: 10px;
+      background: #00e600;
+      color: #000;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 10px 25px;
       border: none;
       border-radius: 30px;
       cursor: pointer;
     }
-    #codeSection {
-      display: none;
-      margin-top: 20px;
-    }
-    #redeemCode {
-      font-size: 22px;
-      font-weight: bold;
-      background: #f0f0f0;
-      padding: 10px;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <div class="header" id="headerText">Google Redeem Code</div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Play">
-    <h2><u>Redeem Code</u></h2>
-    <button id="mainBtn" onclick="handleClick()">Generate</button>
+    <div class="title" id="stepTitle">Google Redeem Code</div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Play Store Logo">
+    <div class="label">Redeem Code</div>
+    
+    <button class="button" id="generateBtn" onclick="generateCode()">Generate</button>
+    <button class="button" id="verifyBtn" onclick="verifyCode()" style="display:none;">Verify</button>
 
     <div id="codeSection">
-      <div class="status-text">Redeem Code Generated</div>
-      <div id="redeemCode">---</div>
-      <button onclick="copyCode()">COPY</button>
+      <div class="title">Redeem Code Generated</div>
+      <div class="code-box" id="codeBox">XXXX-XXXX-XXXX</div>
+      <button class="copy-btn" onclick="copyCode()">COPY</button>
     </div>
   </div>
 
   <script>
-    let state = "generate";
+    function generateCode() {
+      const btn = document.getElementById("generateBtn");
+      btn.innerHTML = 'Loading <div class="spinner"></div>';
+      btn.disabled = true;
 
-    function handleClick() {
-      if (state === "generate") {
-        // simulate redirection
-        window.location.href = "https://example.com/app-link"; // change to your app link
-        state = "verify";
-        localStorage.setItem("userReturned", "true");
-      } else if (state === "verify") {
-        document.getElementById("mainBtn").style.display = "none";
-        document.getElementById("codeSection").style.display = "block";
-        document.getElementById("redeemCode").innerText = generateCode();
-      }
+      // Simulate delay before redirect
+      setTimeout(() => {
+        window.location.href = "https://example.com"; // Change to your app link
+      }, 2000);
     }
 
-    function generateCode() {
+    function verifyCode() {
+      const btn = document.getElementById("verifyBtn");
+      btn.innerHTML = 'Loading <div class="spinner"></div>';
+      btn.disabled = true;
+
+      // Simulate code generation
+      setTimeout(() => {
+        document.getElementById("codeSection").style.display = "block";
+        document.getElementById("codeBox").innerText = generateRandomCode();
+        btn.innerText = "Verify";
+        btn.disabled = false;
+      }, 2000);
+    }
+
+    function generateRandomCode() {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       let code = "";
-      for (let i = 0; i < 16; i++) {
+      for (let i = 0; i < 12; i++) {
+        if (i > 0 && i % 4 === 0) code += "-";
         code += chars.charAt(Math.floor(Math.random() * chars.length));
       }
       return code;
     }
 
     function copyCode() {
-      const code = document.getElementById("redeemCode").innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        alert("Code copied to clipboard!");
-      });
+      const code = document.getElementById("codeBox").innerText;
+      navigator.clipboard.writeText(code);
+      alert("Code copied to clipboard!");
     }
 
-    // When user returns after install
-    window.onload = function () {
-      if (localStorage.getItem("userReturned") === "true") {
-        state = "verify";
-        document.getElementById("mainBtn").innerText = "verify";
+    // Simulate returning to page after app install
+    window.onload = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('verified') === 'true') {
+        document.getElementById("generateBtn").style.display = "none";
+        document.getElementById("verifyBtn").style.display = "inline-block";
       }
     };
   </script>
+
 </body>
 </html>
