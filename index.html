@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Google Redeem Code</title>
+  <meta charset="UTF-8">
+  <title>Redeem Generator</title>
   <style>
     body {
       background: linear-gradient(to right, #8e2de2, #4a00e0);
@@ -11,43 +12,47 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      zoom: 80%; /* Zoom কমানো হয়েছে */
+      zoom: 80%; /* Zoom কম */
     }
 
     .container {
       background: #fff;
-      padding: 20px;
+      padding: 30px;
       border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    h3 {
+      margin-bottom: 10px;
     }
 
     .btn {
-      padding: 10px 20px;
-      background-color: limegreen;
+      padding: 10px 25px;
+      background-color: #28a745;
       color: white;
       border: none;
-      border-radius: 20px;
+      border-radius: 25px;
       font-size: 16px;
       cursor: pointer;
       margin: 10px 0;
     }
 
     .btn:disabled {
-      background-color: #ccc;
+      background-color: #aaa;
       cursor: not-allowed;
     }
 
     .spinner {
       border: 3px solid #f3f3f3;
-      border-top: 3px solid #fff;
+      border-top: 3px solid white;
       border-radius: 50%;
       width: 14px;
       height: 14px;
       animation: spin 1s linear infinite;
       display: inline-block;
-      vertical-align: middle;
       margin-left: 8px;
+      vertical-align: middle;
     }
 
     @keyframes spin {
@@ -55,26 +60,36 @@
       100% { transform: rotate(360deg); }
     }
 
+    #codeBox {
+      display: none;
+      margin-top: 20px;
+    }
+
     #codeOutput {
+      font-size: 18px;
       font-weight: bold;
-      margin-top: 10px;
-      padding: 8px;
-      border: 1px solid #ccc;
+      background: #f9f9f9;
+      border: 1px dashed #888;
+      padding: 10px;
       border-radius: 10px;
-      display: inline-block;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h3>Google Redeem Code</h3>
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Google_Play_2016_icon.svg/1024px-Google_Play_2016_icon.svg.png" width="80">
-    <br><br>
-    <button class="btn" id="generateBtn" onclick="generateCode()">Redeem Code</button><br>
-    <button class="btn" id="verifyBtn" onclick="verifyCode()" style="display: none;">Verify</button><br>
-    <div id="codeBox" style="display: none;">
-      <label>Redeem Code Generated</label><br>
-      <div id="codeOutput">VKPR-4SH4-49U1</div><br>
+    
+    <div id="buttons">
+      <button class="btn" id="generateBtn" onclick="generateCode()">Generate</button>
+      <button class="btn" id="verifyBtn" onclick="verifyCode()" style="display: none;">Verify</button>
+    </div>
+
+    <div id="codeBox">
+      <p>🎉 Redeem Code Generated:</p>
+      <div id="codeOutput">VKPR-4SH4-49U1</div>
       <button class="btn" onclick="copyCode()">COPY</button>
     </div>
   </div>
@@ -82,6 +97,7 @@
   <script>
     window.onload = function () {
       if (localStorage.getItem("showVerify") === "true") {
+        document.getElementById("generateBtn").style.display = "none";
         document.getElementById("verifyBtn").style.display = "inline-block";
       }
     }
@@ -89,25 +105,26 @@
     function generateCode() {
       const btn = document.getElementById("generateBtn");
       btn.disabled = true;
-      btn.innerHTML = 'Loading <div class="spinner"></div>';
+      btn.innerHTML = 'Redirecting <div class="spinner"></div>';
 
-      // ✅ Set localStorage first
+      // ✅ Save to localStorage before redirect
       localStorage.setItem("showVerify", "true");
 
-      // ✅ Wait 2 seconds before redirect
+      // ✅ Delay before going to Play Store
       setTimeout(() => {
         window.location.href = "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
       }, 2000);
     }
 
     function verifyCode() {
-      document.getElementById("codeBox").style.display = "block";
-      document.getElementById("verifyBtn").disabled = true;
-      document.getElementById("verifyBtn").innerHTML = 'Verifying <div class="spinner"></div>';
+      const btn = document.getElementById("verifyBtn");
+      btn.disabled = true;
+      btn.innerHTML = 'Verifying <div class="spinner"></div>';
 
       setTimeout(() => {
-        document.getElementById("verifyBtn").innerHTML = 'Verified ✅';
-        document.getElementById("verifyBtn").style.backgroundColor = "gray";
+        document.getElementById("codeBox").style.display = "block";
+        btn.innerHTML = 'Verified ✅';
+        btn.style.backgroundColor = "#555";
       }, 1500);
     }
 
@@ -117,5 +134,6 @@
       alert("Code Copied: " + code);
     }
   </script>
+
 </body>
 </html>
