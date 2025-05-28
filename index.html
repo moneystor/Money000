@@ -1,150 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Redeem Generator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deposit Offer</title>
   <style>
     body {
-      background: linear-gradient(to right, #8e2de2, #4a00e0);
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
-      zoom: 80%;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #7F00FF, #00C9FF);
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
-
     .container {
-      background: #fff;
+      background: white;
       padding: 30px;
       border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
-
-    h3 {
-      margin-bottom: 10px;
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
     }
-
-    .btn {
-      padding: 10px 25px;
-      background-color: #28a745;
+    button {
+      background: linear-gradient(to right, #FF416C, #833AB4);
       color: white;
+      padding: 12px 30px;
       border: none;
-      border-radius: 25px;
+      border-radius: 10px;
       font-size: 16px;
       cursor: pointer;
-      margin: 10px 5px;
+      transition: 0.3s ease;
     }
-
-    .btn:disabled {
-      background-color: #aaa;
-      cursor: not-allowed;
+    button:hover {
+      opacity: 0.9;
     }
-
-    .spinner {
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid white;
-      border-radius: 50%;
-      width: 14px;
-      height: 14px;
-      animation: spin 1s linear infinite;
-      display: inline-block;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    #codeBox {
-      display: none;
+    .steps {
       margin-top: 20px;
+      font-size: 14px;
+      color: #666;
     }
-
-    #codeOutput {
-      font-size: 18px;
-      font-weight: bold;
-      background: #f9f9f9;
-      border: 1px dashed #888;
-      padding: 10px;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
-
-    #resetBtn {
-      display: none;
+    .logo {
+      width: 120px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h3>🎁 Google Redeem Code</h3>
-    
-    <!-- Updated Image -->
-    <img src="https://i.ibb.co/chgN9wvR/google-play-store-logo-1273375-804.jpg" width="80" alt="Google Play Store Logo">
-
-    <div id="buttons">
-      <button class="btn" id="generateBtn" onclick="generateCode()">Generate</button>
-      <button class="btn" id="verifyBtn" onclick="verifyCode()" style="display: none;">Verify</button>
+    <img src="https://i.postimg.cc/yYbKgmXN/2f5e612e0c094bf8a2e6b6c5451aff1d.png" alt="KukuFM Logo" class="logo" />
+    <h2>Deposit & Get ₹40 UPI Cash Instant</h2>
+    <input type="text" id="upi" placeholder="Enter Your UPI ID">
+    <button onclick="submitUPI()">SUBMIT</button>
+    <div class="steps">
+      <p>1. Enter your UPI ID & click Submit</p>
+      <p>2. Install & open the app</p>
+      <p>3. Register & deposit</p>
+      <p>Done! You'll get ₹40 UPI Cash</p>
     </div>
-
-    <div id="codeBox">
-      <p>🎉 Redeem Code Generated:</p>
-      <div id="codeOutput">VKPR-4SH4-49U1</div>
-      <button class="btn" onclick="copyCode()">COPY</button>
-    </div>
-
-    <br>
-    <button class="btn" id="resetBtn" onclick="resetStorage()" style="background-color: #dc3545;">🔄 Reset</button>
   </div>
 
   <script>
-    window.onload = function () {
-      if (localStorage.getItem("showVerify") === "true") {
-        document.getElementById("generateBtn").style.display = "none";
-        document.getElementById("verifyBtn").style.display = "inline-block";
+    function submitUPI() {
+      const upi = document.getElementById('upi').value;
+      if (!upi.includes("@")) {
+        alert("Please enter a valid UPI ID.");
+        return;
       }
-    }
-
-    function generateCode() {
-      const btn = document.getElementById("generateBtn");
-      btn.disabled = true;
-      btn.innerHTML = 'Redirecting <div class="spinner"></div>';
-      localStorage.setItem("showVerify", "true");
-
-      setTimeout(() => {
-        window.location.href = "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
-      }, 2000);
-    }
-
-    function verifyCode() {
-      const btn = document.getElementById("verifyBtn");
-      btn.disabled = true;
-      btn.innerHTML = 'Verifying <div class="spinner"></div>';
-
-      setTimeout(() => {
-        document.getElementById("codeBox").style.display = "block";
-        btn.innerHTML = 'Verified ✅';
-        btn.style.backgroundColor = "#555";
-      }, 1500);
-    }
-
-    function copyCode() {
-      const code = document.getElementById("codeOutput").textContent;
-      navigator.clipboard.writeText(code);
-      alert("Code Copied: " + code);
-    }
-
-    function resetStorage() {
-      localStorage.removeItem("showVerify");
-      location.reload();
+      const url = `https://api.frizza.in/api/v1/5970C9C6D0ACf9g7eC9jg5ef76gh:A7jf?upi=${upi}`;
+      window.location.href = url;
     }
   </script>
-
 </body>
 </html>
