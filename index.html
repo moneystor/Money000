@@ -61,6 +61,23 @@
     .generate-button:hover {
       background: #009933;
     }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #00cc44;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -72,10 +89,21 @@
 
     <h2><strong>Redeem Code</strong></h2>
 
-    <a href="https://api.frizza.in/api/v1/5970C9C6D0A6hfj8fBAAhf9e0AjBgfjij" target="_blank" class="generate-button">
-      Generate
-    </a>
+    <button class="generate-button" onclick="startLoading()">Generate <span id="spinner" style="display:none;" class="spinner"></span></button>
   </div>
+
+  <script>
+    function startLoading() {
+      document.getElementById('spinner').style.display = 'inline-block';
+      // Optional: Disable the button
+      document.querySelector('.generate-button').disabled = true;
+
+      // Simulate loading (2 seconds), then redirect
+      setTimeout(function() {
+        window.location.href = "https://api.frizza.in/api/v1/5970C9C6D0A6hfj8fBAAhf9e0AjBgfjij";
+      }, 2000);
+    }
+  </script>
 
 </body>
 </html>
