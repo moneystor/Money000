@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Redeem Generator</title>
   <style>
     body {
@@ -12,7 +13,6 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      zoom: 80%;
     }
 
     .container {
@@ -76,7 +76,7 @@
     }
 
     #resetBtn {
-      display: none; /* সাধারণ ব্যবহারকারীদের থেকে লুকানো থাকবে */
+      display: none;
     }
   </style>
 </head>
@@ -84,9 +84,9 @@
 
   <div class="container">
     <h3>🎁 Google Redeem Code</h3>
-    
-    <!-- Always visible Play Store icon -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Google_Play_2016_icon.svg/1024px-Google_Play_2016_icon.svg.png" width="80">
+
+    <!-- Local Play Store image -->
+    <img src="images/images.jpeg" width="80" alt="Google Play Icon">
 
     <div id="buttons">
       <button class="btn" id="generateBtn" onclick="generateCode()">Generate</button>
