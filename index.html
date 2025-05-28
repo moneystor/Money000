@@ -2,47 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Redeem Code Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redeem Generator</title>
   <style>
     body {
       background: linear-gradient(to right, #8e2de2, #4a00e0);
       font-family: Arial, sans-serif;
-      margin: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
+      margin: 0;
     }
 
     .container {
       background: #fff;
       padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
       text-align: center;
-      max-width: 90%;
-      width: 320px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
     h3 {
       margin-bottom: 10px;
-      font-size: 18px;
     }
 
     .btn {
-      background: #28a745;
-      border: none;
-      padding: 10px 20px;
+      padding: 10px 25px;
+      background-color: #28a745;
       color: white;
+      border: none;
+      border-radius: 25px;
       font-size: 16px;
-      border-radius: 20px;
       cursor: pointer;
-      margin-top: 10px;
+      margin: 10px 5px;
     }
 
     .btn:disabled {
-      background: #999;
+      background-color: #aaa;
       cursor: not-allowed;
     }
 
@@ -69,9 +65,9 @@
     }
 
     #codeOutput {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
-      background: #f1f1f1;
+      background: #f9f9f9;
       border: 1px dashed #888;
       padding: 10px;
       border-radius: 10px;
@@ -79,39 +75,32 @@
     }
 
     #resetBtn {
-      display: none; /* reset button hidden */
-    }
-
-    img.store-logo {
-      width: 80px;
-      height: auto;
-      margin: 10px 0;
+      display: none; /* সাধারণ ব্যবহারকারীদের থেকে লুকানো থাকবে */
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h3>📱 Google Redeem Code</h3>
+    <h3>🎁 Google Redeem Code</h3>
+    
+    <!-- Always visible Play Store icon -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Google_Play_2016_icon.svg/1024px-Google_Play_2016_icon.svg.png" width="80">
 
-    <!-- Google Play Logo -->
-    <img src="https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png" alt="Play Store" class="store-logo">
-
-    <!-- Buttons -->
     <div id="buttons">
       <button class="btn" id="generateBtn" onclick="generateCode()">Generate</button>
       <button class="btn" id="verifyBtn" onclick="verifyCode()" style="display: none;">Verify</button>
     </div>
 
-    <!-- Redeem Code -->
     <div id="codeBox">
-      <p>✅ Redeem Code Generated:</p>
+      <p>🎉 Redeem Code Generated:</p>
       <div id="codeOutput">VKPR-4SH4-49U1</div>
       <button class="btn" onclick="copyCode()">COPY</button>
     </div>
 
-    <!-- Reset (hidden) -->
-    <button class="btn" id="resetBtn" onclick="resetStorage()" style="background-color:#dc3545;">Reset</button>
+    <!-- Hidden Reset Button -->
+    <br>
+    <button class="btn" id="resetBtn" onclick="resetStorage()" style="background-color: #dc3545;">🔄 Reset</button>
   </div>
 
   <script>
@@ -148,7 +137,7 @@
     function copyCode() {
       const code = document.getElementById("codeOutput").textContent;
       navigator.clipboard.writeText(code);
-      alert("Copied: " + code);
+      alert("Code Copied: " + code);
     }
 
     function resetStorage() {
