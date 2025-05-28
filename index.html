@@ -12,7 +12,7 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      zoom: 80%; /* Zoom কম */
+      zoom: 80%;
     }
 
     .container {
@@ -74,12 +74,18 @@
       border-radius: 10px;
       margin: 10px 0;
     }
+
+    #resetBtn {
+      display: none; /* সাধারণ ব্যবহারকারীদের থেকে লুকানো থাকবে */
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
     <h3>🎁 Google Redeem Code</h3>
+    
+    <!-- Always visible Play Store icon -->
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Google_Play_2016_icon.svg/1024px-Google_Play_2016_icon.svg.png" width="80">
 
     <div id="buttons">
@@ -93,8 +99,9 @@
       <button class="btn" onclick="copyCode()">COPY</button>
     </div>
 
+    <!-- Hidden Reset Button -->
     <br>
-    <button class="btn" onclick="resetStorage()" style="background-color: #dc3545;">🔄 Reset</button>
+    <button class="btn" id="resetBtn" onclick="resetStorage()" style="background-color: #dc3545;">🔄 Reset</button>
   </div>
 
   <script>
@@ -109,11 +116,8 @@
       const btn = document.getElementById("generateBtn");
       btn.disabled = true;
       btn.innerHTML = 'Redirecting <div class="spinner"></div>';
-
-      // Save to localStorage before redirect
       localStorage.setItem("showVerify", "true");
 
-      // Delay before going to Play Store
       setTimeout(() => {
         window.location.href = "https://play.google.com/store/apps/details?id=com.mnyplnt.app&referrer=53960";
       }, 2000);
