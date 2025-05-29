@@ -4,49 +4,41 @@
   <meta charset="UTF-8">
   <title>Google Redeem Code</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
       font-family: Arial, sans-serif;
-    }
-
-    body {
+      background: linear-gradient(45deg, #a100ff, #00c3ff);
       height: 100vh;
-      background: linear-gradient(to right, #9b2fff, #3db8ff);
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .container {
-      background: #fff;
+      background-color: white;
       padding: 30px;
-      border-radius: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       width: 90%;
-      max-width: 350px;
+      max-width: 320px;
     }
 
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    img {
+    .logo-wrapper img {
       width: 80px;
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
 
     button {
-      background-color: #555;
+      background-color: #444;
       color: white;
       padding: 10px 20px;
-      margin-top: 15px;
       border: none;
       border-radius: 8px;
-      font-size: 16px;
       cursor: pointer;
+      margin-top: 15px;
+      font-size: 16px;
     }
 
     button:disabled {
@@ -55,22 +47,20 @@
     }
 
     #codeContainer {
-      margin-top: 20px;
       display: none;
+      margin-top: 20px;
+      flex-direction: column;
+      align-items: center;
     }
 
     #redeemCode {
-      width: 100%;
-      padding: 10px;
       font-size: 18px;
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 10px;
       text-align: center;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-
-    #copyBtn {
-      background-color: #00cc44;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
@@ -78,11 +68,16 @@
 
   <div class="container">
     <h2>Google Redeem Code</h2>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Logo" />
-    
+
+    <div class="logo-wrapper">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Logo">
+    </div>
+
     <button id="startButton">Generate</button>
     <button id="verifyButton" style="display: none;">Verify</button>
-    
+
+    <div id="loadingText" style="margin-top: 15px;"></div>
+
     <div id="codeContainer">
       <input type="text" id="redeemCode" readonly>
       <button id="copyBtn" onclick="copyCode()">Copy</button>
@@ -92,10 +87,11 @@
   <script>
     const startButton = document.getElementById("startButton");
     const verifyButton = document.getElementById("verifyButton");
+    const loadingText = document.getElementById("loadingText");
     const codeContainer = document.getElementById("codeContainer");
-    const redeemCodeInput = document.getElementById("redeemCode");
+    const redeemCode = document.getElementById("redeemCode");
 
-    let hasVerified = false;
+    let verifiedOnce = false;
 
     startButton.addEventListener("click", () => {
       startButton.style.display = "none";
@@ -103,37 +99,36 @@
     });
 
     verifyButton.addEventListener("click", () => {
-      if (hasVerified) return;
+      if (verifiedOnce) return;
 
-      hasVerified = true;
-      verifyButton.disabled = true;
       verifyButton.innerText = "Verifying...";
+      verifyButton.disabled = true;
 
       setTimeout(() => {
-        verifyButton.innerText = "✅ Verified!";
-        verifyButton.style.backgroundColor = "#28a745";
-        codeContainer.style.display = "block";
-        redeemCodeInput.value = generateCode();
+        verifiedOnce = true;
+        verifyButton.style.display = "none";
+        loadingText.innerHTML = "✅ Verified!";
+        codeContainer.style.display = "flex";
+        redeemCode.value = generateCode();
       }, 2000);
     });
 
     function generateCode() {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let code = '';
       for (let i = 0; i < 16; i++) {
-        code += characters.charAt(Math.floor(Math.random() * characters.length));
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
         if ((i + 1) % 4 === 0 && i !== 15) code += '-';
       }
       return code;
     }
 
     function copyCode() {
-      redeemCodeInput.select();
-      redeemCodeInput.setSelectionRange(0, 99999);
+      redeemCode.select();
+      redeemCode.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      alert("Copied: " + redeemCodeInput.value);
+      alert("Copied: " + redeemCode.value);
     }
   </script>
-
 </body>
 </html>
