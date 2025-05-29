@@ -1,92 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Google Redeem Code</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #a100ff, #3c9eff);
+      background: linear-gradient(to right, #a100ff, #00bfff);
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
     }
+
     .container {
       background: white;
+      padding: 30px;
       border-radius: 20px;
-      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       width: 90%;
       max-width: 400px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
+
     h2 {
       margin-bottom: 20px;
     }
-    img {
+
+    .logo {
       width: 80px;
       margin-bottom: 20px;
     }
+
     button {
+      background-color: #555;
+      color: white;
       padding: 10px 20px;
-      margin: 10px 0;
-      font-size: 18px;
+      font-size: 16px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s ease;
+      margin-bottom: 20px;
     }
-    #startButton {
-      background-color: #007bff;
-      color: white;
-    }
-    #verifyButton {
-      background-color: #6c757d;
-      color: white;
-      display: none;
-    }
-    #verifyButton:disabled {
+
+    button:disabled {
+      opacity: 0.7;
       cursor: not-allowed;
     }
-    #statusMessage {
-      margin-top: 10px;
-      font-size: 18px;
+
+    input {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
     }
+
+    #copyBtn {
+      background-color: #00c853;
+    }
+
     #codeContainer {
       display: none;
-      margin-top: 20px;
-    }
-    #redeemCode {
-      width: 100%;
-      padding: 10px;
-      font-size: 18px;
-      text-align: center;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-    #copyButton {
-      background-color: #00c851;
-      color: black;
-      font-weight: bold;
+      flex-direction: column;
+      align-items: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Google Redeem Code</h2>
-    <img src="https://i.ibb.co/xKrRCQDC/20250529-085555.png" alt="Google Play" />
-    <button id="startButton">Generate</button>
-    <button id="verifyButton">Verify</button>
-    <div id="statusMessage"></div>
-    
+    <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Play Logo">
+
+    <button id="startButton">Start</button>
+    <button id="verifyButton" style="display:none;">Verify</button>
+
     <div id="codeContainer">
-      <p>🎉 Redeem Code Generated</p>
-      <input type="text" id="redeemCode" readonly />
-      <button id="copyButton" onclick="copyCode()">COPY</button>
+      <p><strong>🎉 Redeem Code Generated</strong></p>
+      <input type="text" id="redeemCode" readonly>
+      <button id="copyBtn" onclick="copyCode()">COPY</button>
     </div>
   </div>
 
@@ -94,7 +90,6 @@
     const startButton = document.getElementById("startButton");
     const verifyButton = document.getElementById("verifyButton");
     const codeContainer = document.getElementById("codeContainer");
-    const statusMessage = document.getElementById("statusMessage");
     const redeemCodeInput = document.getElementById("redeemCode");
 
     let hasVerified = false;
@@ -107,19 +102,15 @@
     verifyButton.addEventListener("click", () => {
       if (hasVerified) return;
 
-      statusMessage.innerText = "⏳ Verifying...";
+      hasVerified = true;
       verifyButton.disabled = true;
+      verifyButton.innerText = "Verifying...";
 
       setTimeout(() => {
-        hasVerified = true;
-
-        verifyButton.innerHTML = "✅ Verified!";
+        verifyButton.innerText = "✅ Verified!";
         verifyButton.style.backgroundColor = "#28a745";
         verifyButton.style.cursor = "default";
-        verifyButton.disabled = true;
-
-        statusMessage.innerText = "";
-        codeContainer.style.display = "block";
+        codeContainer.style.display = "flex";
         redeemCodeInput.value = generateCode();
       }, 2000);
     });
@@ -142,4 +133,4 @@
     }
   </script>
 </body>
-</html>
+  </html>
