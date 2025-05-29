@@ -1,142 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Google Redeem Code</title>
   <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      margin: 0;
-      font-family: sans-serif;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
       background: linear-gradient(to right, #9b00d5, #427eff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      font-family: Arial, sans-serif;
     }
-
     .container {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      width: 300px;
+      background:#fff;
+      padding:30px 20px;
+      border-radius:12px;
+      text-align:center;
+      box-shadow:0 4px 10px rgba(0,0,0,0.2);
+      width:90%;
+      max-width:320px;
     }
-
     h2 {
-      background: #f2f2f2;
-      padding: 10px;
-      border-radius: 8px;
+      background:#f2f2f2;
+      padding:10px;
+      border-radius:8px;
+      margin-bottom:20px;
     }
-
-    img {
-      margin: 20px 0;
-      width: 60px;
-      height: auto;
+    .logo-wrapper img {
+      width:80px;
+      margin-bottom:20px;
     }
-
     button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #00d44c;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 10px;
+      display:block;
+      width:100%;
+      max-width:200px;
+      margin:15px auto 0;
+      padding:10px 0;
+      font-size:16px;
+      color:#fff;
+      background:#00d44c;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      transition:background 0.3s;
     }
-
-    button:disabled {
-      background: gray;
-      cursor: not-allowed;
+    button:hover:not(:disabled) { background:#00b140; }
+    button:disabled { background:gray; cursor:not-allowed; }
+    #codeContainer {
+      display:none;
+      flex-direction:column;
+      align-items:center;
+      margin-top:20px;
     }
-
-    .code-box {
-      margin-top: 15px;
-      padding: 10px;
-      border: 2px solid #ccc;
-      border-radius: 6px;
-      font-family: monospace;
-      background: #f9f9f9;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .spaced {
-      margin-top: 20px;
+    #redeemCode {
+      width:100%;
+      padding:10px;
+      font-size:18px;
+      text-align:center;
+      border:2px solid #ccc;
+      border-radius:6px;
+      margin-bottom:15px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Google Redeem Code</h2>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Logo" />
-
-    <button id="generateBtn">Generate</button>
-
-    <div id="verifySection" class="hidden spaced">
-      <button id="verifyBtn">Verify</button>
+    <div class="logo-wrapper">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Logo">
     </div>
+    <button id="startButton">Generate</button>
+    <button id="verifyButton" style="display:none;">Verify</button>
 
-    <div id="verifyingSection" class="hidden spaced">
-      <button disabled>Verifying...</button>
-    </div>
-
-    <div id="verifiedSection" class="hidden spaced">
-      <button disabled>Verified ✅</button>
-    </div>
-
-    <div id="codeContainer" class="hidden spaced">
-      <div class="code-box" id="redeemCode">XXXX-XXXX-XXXX</div>
-      <button onclick="copyCode()">Copy</button>
+    <div id="codeContainer">
+      <p>🎉 Redeem Code Generated</p>
+      <input type="text" id="redeemCode" readonly>
+      <button id="copyBtn" onclick="copyCode()">Copy</button>
     </div>
   </div>
 
   <script>
-    const generateBtn = document.getElementById("generateBtn");
-    const verifySection = document.getElementById("verifySection");
-    const verifyBtn = document.getElementById("verifyBtn");
-    const verifyingSection = document.getElementById("verifyingSection");
-    const verifiedSection = document.getElementById("verifiedSection");
+    const startButton   = document.getElementById("startButton");
+    const verifyButton  = document.getElementById("verifyButton");
     const codeContainer = document.getElementById("codeContainer");
-    const redeemCode = document.getElementById("redeemCode");
+    const redeemCode    = document.getElementById("redeemCode");
 
-    function generateCode() {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let code = "";
-      for (let i = 0; i < 12; i++) {
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-        if ((i + 1) % 4 === 0 && i < 11) code += "-";
-      }
-      return code;
-    }
+    let hasVerified = false;
 
-    generateBtn.onclick = () => {
-      generateBtn.classList.add("hidden");
-      verifySection.classList.remove("hidden");
-    };
+    startButton.addEventListener("click", () => {
+      startButton.style.display = "none";
+      verifyButton.style.display = "block";
+    });
 
-    verifyBtn.onclick = () => {
-      verifySection.classList.add("hidden");
-      verifyingSection.classList.remove("hidden");
+    verifyButton.addEventListener("click", () => {
+      if (hasVerified) return;
+      hasVerified = true;
+      verifyButton.disabled = true;
+      verifyButton.innerText = "Verifying...";
 
       setTimeout(() => {
-        verifyingSection.classList.add("hidden");
-        verifiedSection.classList.remove("hidden");
-
-        // show code after verified
-        codeContainer.classList.remove("hidden");
-        redeemCode.innerText = generateCode();
+        verifyButton.disabled = false;
+        verifyButton.innerText = "Verified ✅";
+        verifyButton.style.backgroundColor = "#28a745";
+        codeContainer.style.display = "flex";
+        redeemCode.value = generateCode();
       }, 2000);
-    };
+    });
+
+    function generateCode() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let c = '';
+      for (let i = 0; i < 16; i++) {
+        c += chars.charAt(Math.floor(Math.random()*chars.length));
+        if ((i+1)%4===0 && i!==15) c+='-';
+      }
+      return c;
+    }
 
     function copyCode() {
-      navigator.clipboard.writeText(redeemCode.innerText).then(() => {
-        alert("Code copied to clipboard!");
-      });
+      redeemCode.select();
+      redeemCode.setSelectionRange(0,99999);
+      document.execCommand("copy");
+      alert("Copied: " + redeemCode.value);
     }
   </script>
 </body>
