@@ -1,142 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Google Redeem Code</title>
   <style>
     body {
+      background: linear-gradient(to right, #aa00ff, #00bfff);
+      font-family: sans-serif;
+      text-align: center;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #9b00ff, #3b82f6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
     }
-
     .container {
       background: white;
-      border-radius: 30px;
-      padding: 30px 20px;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      width: 90%;
-      max-width: 400px;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 350px;
     }
-
-    .title {
-      background-color: #ddd;
-      padding: 10px 20px;
-      font-size: 22px;
-      font-weight: bold;
-      border-radius: 12px;
-      display: inline-block;
-    }
-
-    .play-icon {
-      margin: 20px auto;
-      width: 80px;
-    }
-
-    .verify-btn {
-      background-color: #aaa;
+    button {
+      padding: 10px 25px;
       border: none;
+      border-radius: 10px;
+      background-color: grey;
       color: white;
       font-size: 18px;
-      padding: 10px 30px;
-      border-radius: 12px;
       cursor: pointer;
     }
-
-    #loadingText {
-      margin-top: 10px;
-      font-size: 16px;
-      display: none;
-    }
-
-    .code-box {
-      display: none;
-      margin: 20px 0;
-    }
-
-    .generated-code {
-      font-size: 18px;
-      padding: 10px;
-      width: 90%;
-      border-radius: 12px;
-      border: 1px solid #aaa;
-      text-align: center;
-    }
-
-    .copy-btn {
+    #copyBtn {
       background-color: #00cc44;
       color: black;
-      padding: 10px 30px;
-      border: none;
-      border-radius: 25px;
-      font-size: 18px;
-      cursor: pointer;
       font-weight: bold;
+      margin-top: 20px;
     }
-
+    #codeBox {
+      display: none;
+      margin-top: 15px;
+    }
+    input {
+      padding: 10px;
+      width: 90%;
+      font-size: 16px;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+    #loadingText {
+      margin: 15px 0;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <div class="title">Google Redeem Code</div>
+    <h2>Google Redeem Code</h2>
+    <img src="https://i.ibb.co/xKrRCQDC/20250529-085555.png" width="80" alt="Play Store Logo">
 
-    <img class="play-icon" src="https://i.ibb.co/xKrRCQDC/20250529-085555.png" alt="Google Play">
+    <br><br>
 
-    <button class="verify-btn" id="verifyBtn">Verify</button>
+    <button id="generateBtn">Generate</button>
+    <button id="verifyBtn" style="display:none;">Verify</button>
 
-    <p id="loadingText">🎉 Redeem Code Generated</p>
+    <div id="loadingText"></div>
 
-    <div class="code-box" id="codeBox">
-      <input type="text" readonly class="generated-code" id="generatedCode">
+    <div id="codeBox">
+      <p>🎉 Redeem Code Generated</p>
+      <input type="text" id="generatedCode" readonly>
+      <br>
+      <button id="copyBtn" onclick="copyCode()">COPY</button>
     </div>
-
-    <button class="copy-btn" id="copyBtn">COPY</button>
   </div>
 
   <script>
+    const generateBtn = document.getElementById("generateBtn");
     const verifyBtn = document.getElementById("verifyBtn");
-    const loadingText = document.getElementById("loadingText");
     const codeBox = document.getElementById("codeBox");
+    const loadingText = document.getElementById("loadingText");
     const generatedCode = document.getElementById("generatedCode");
-    const copyBtn = document.getElementById("copyBtn");
 
     let verifiedOnce = false;
+
+    generateBtn.addEventListener("click", () => {
+      generateBtn.style.display = "none";
+      verifyBtn.style.display = "inline-block";
+    });
 
     verifyBtn.addEventListener("click", () => {
       if (verifiedOnce) return;
 
-      verifyBtn.innerHTML = "Verify ✅";
-      loadingText.style.display = "block";
-      codeBox.style.display = "block";
-      generatedCode.value = generateCode();
-      verifiedOnce = true;
-    });
+      loadingText.innerText = "⏳ Verifying...";
+      verifyBtn.disabled = true;
 
-    copyBtn.addEventListener("click", () => {
-      generatedCode.select();
-      document.execCommand("copy");
-      copyBtn.innerText = "COPIED!";
       setTimeout(() => {
-        copyBtn.innerText = "COPY";
+        verifiedOnce = true;
+        loadingText.innerHTML = "✅ Verified!";
+        codeBox.style.display = "block";
+        generatedCode.value = generateCode();
       }, 2000);
     });
 
     function generateCode() {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let code = "";
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let code = '';
       for (let i = 0; i < 16; i++) {
         code += chars.charAt(Math.floor(Math.random() * chars.length));
-        if ((i + 1) % 4 === 0 && i !== 15) code += "-";
+        if ((i + 1) % 4 === 0 && i !== 15) code += '-';
       }
       return code;
     }
+
+    function copyCode() {
+      generatedCode.select();
+      generatedCode.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      alert("Copied: " + generatedCode.value);
+    }
   </script>
+
 </body>
 </html>
