@@ -8,133 +8,134 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #a000c8, #3d8eff);
-      color: #000;
+      background: linear-gradient(to right, #9f00c5, #3a77ff);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
     .container {
-      background: #fff;
-      padding: 30px 20px;
+      background-color: white;
+      border-radius: 30px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       width: 90%;
       max-width: 350px;
-      border-radius: 30px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
     .title {
-      border: 2px solid gray;
-      border-radius: 12px;
-      padding: 5px 10px;
+      font-size: 20px;
       font-weight: bold;
-      display: inline-block;
       margin-bottom: 15px;
+      padding: 10px;
+      background-color: #eee;
+      border-radius: 10px;
+      display: inline-block;
     }
     img {
+      margin: 20px 0;
       width: 80px;
-      margin: 20px 0;
     }
-    .button {
-      background: #00cc44;
-      color: black;
-      font-size: 22px;
-      padding: 10px 30px;
-      border-radius: 30px;
+    .btn {
+      margin-top: 10px;
+      padding: 12px 25px;
       border: none;
+      border-radius: 25px;
+      font-size: 18px;
+      background-color: #00cc44;
+      color: black;
+      font-weight: bold;
       cursor: pointer;
-      margin-top: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: 0.3s;
     }
-    .loading {
-      font-size: 18px;
+    .btn:hover {
+      background-color: #00aa3e;
+    }
+    #loading {
+      display: none;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #777;
+    }
+    #codeSection {
+      display: none;
       margin-top: 15px;
-      display: none;
     }
-    #success {
-      display: none;
-    }
-    #code-box {
-      margin: 20px 0;
+    #codeInput {
+      margin-top: 10px;
       padding: 10px;
-      font-size: 18px;
-      border: 2px solid #ccc;
-      border-radius: 20px;
-      background: #f0f0f0;
-      display: inline-block;
-      min-width: 200px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="title">Google Redeem Code</div>
+    <img src="https://i.ibb.co/QFpYFcW4/google-play-store-logo-1273375-804.jpg" alt="Google Play Logo" />
 
-<div class="container">
-  <div class="title">Google Redeem Code</div>
-  <br>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Play_2016_icon.svg" alt="Google Play Logo" />
+    <div id="buttons">
+      <button class="btn" id="generateBtn">Generate</button>
+    </div>
 
-  <div id="buttons">
-    <button class="button" id="actionBtn">Generate</button>
+    <div id="loading">Loading...</div>
+
+    <div id="codeSection">
+      <p>🎉 Redeem Code Generated</p>
+      <input type="text" id="codeInput" readonly />
+      <br/>
+      <button class="btn" onclick="copyCode()">COPY</button>
+    </div>
   </div>
 
-  <div id="loading" class="loading">⏳ Please wait...</div>
+  <script>
+    const generateBtn = document.getElementById('generateBtn');
+    const buttonsDiv = document.getElementById('buttons');
+    const loading = document.getElementById('loading');
+    const codeSection = document.getElementById('codeSection');
+    const codeInput = document.getElementById('codeInput');
 
-  <div id="success">
-    <h3>🎉 Redeem Code Generated</h3>
-    <div id="code-box">XXXX-XXXX-XXXX</div>
-    <br />
-    <button class="button" id="copyBtn">COPY</button>
-  </div>
-</div>
-
-<script>
-  const actionBtn = document.getElementById('actionBtn');
-  const loading = document.getElementById('loading');
-  const success = document.getElementById('success');
-  const codeBox = document.getElementById('code-box');
-  const copyBtn = document.getElementById('copyBtn');
-  const buttons = document.getElementById('buttons');
-
-  const apiURL = "https://api.frizza.in/api/v1/5970C9C6D0A6hfj8fBAAhf9e0AjBgfjij";
-
-  // প্রথমবার কি না চেক করো
-  const userReturned = localStorage.getItem("visitedBefore");
-  if (userReturned) {
-    actionBtn.innerText = "Verify ✅";
-  }
-
-  actionBtn.addEventListener('click', async () => {
-    buttons.style.display = "none";
-    loading.style.display = "block";
-
-    try {
-      const response = await fetch(apiURL);
-      const result = await response.text(); // যদি JSON হয়, .json() ব্যবহার করো
-      const code = result || "XXXX-XXXX-XXXX";
+    generateBtn.onclick = function () {
+      loading.style.display = 'block';
+      generateBtn.disabled = true;
 
       setTimeout(() => {
-        loading.style.display = "none";
-        success.style.display = "block";
-        codeBox.innerText = code;
-        localStorage.setItem("visitedBefore", "true");
-      }, 2000); // লোডিং একটু বাস্তব দেখাতে delay
-    } catch (err) {
-      loading.innerText = "❌ Code fetch failed!";
-      setTimeout(() => {
-        loading.style.display = "none";
-        buttons.style.display = "block";
-        loading.innerText = "⏳ Please wait...";
-      }, 2500);
+        loading.style.display = 'none';
+        buttonsDiv.innerHTML = '<button class="btn" id="verifyBtn">Verify</button>';
+        document.getElementById('verifyBtn').onclick = verifyCode;
+      }, 2000);
     }
-  });
 
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(codeBox.innerText).then(() => {
-      alert("✅ Code copied to clipboard!");
-    });
-  });
-</script>
+    function verifyCode() {
+      loading.style.display = 'block';
+      const verifyBtn = document.getElementById('verifyBtn');
+      verifyBtn.disabled = true;
 
+      setTimeout(() => {
+        loading.style.display = 'none';
+        buttonsDiv.innerHTML = '<button class="btn">Verify ✅</button>';
+        codeSection.style.display = 'block';
+        codeInput.value = generateFakeCode();
+      }, 2000);
+    }
+
+    function generateFakeCode() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let code = "";
+      for (let i = 0; i < 16; i++) {
+        if (i > 0 && i % 4 === 0) code += "-";
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    }
+
+    function copyCode() {
+      codeInput.select();
+      document.execCommand("copy");
+      alert("Code copied: " + codeInput.value);
+    }
+  </script>
 </body>
 </html>
