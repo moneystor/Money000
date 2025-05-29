@@ -1,74 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Google Redeem Code</title>
   <style>
     body {
-      background: linear-gradient(to right, #aa00ff, #00bfff);
-      font-family: sans-serif;
-      text-align: center;
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #9b00d5, #427eff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
     .container {
       background: white;
-      margin: 50px auto;
-      padding: 30px;
-      border-radius: 20px;
-      max-width: 350px;
+      border-radius: 30px;
+      padding: 30px 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-    button {
-      padding: 10px 25px;
-      border: none;
+    .title {
+      background: #f2f2f2;
+      padding: 10px 20px;
       border-radius: 10px;
-      background-color: grey;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-    }
-    #copyBtn {
-      background-color: #00cc44;
-      color: black;
+      display: inline-block;
+      font-size: 20px;
       font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 80px;
+      margin: 20px auto;
+      display: block;
+    }
+    .btn {
+      padding: 12px 25px;
+      font-size: 18px;
       margin-top: 20px;
+      border: none;
+      border-radius: 30px;
+      background: #00d44c;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn:disabled {
+      background: gray;
     }
     #codeBox {
+      margin-top: 20px;
       display: none;
-      margin-top: 15px;
     }
-    input {
-      padding: 10px;
-      width: 90%;
-      font-size: 16px;
-      text-align: center;
+    #generatedCode {
+      padding: 12px;
       border: 2px solid #ccc;
-      border-radius: 10px;
-    }
-    #loadingText {
-      margin: 15px 0;
+      border-radius: 15px;
+      width: 90%;
       font-size: 18px;
+      text-align: center;
+      margin: 10px auto;
+    }
+    .loading {
+      font-size: 16px;
+      color: #555;
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h2>Google Redeem Code</h2>
-    <img src="https://i.ibb.co/xKrRCQDC/20250529-085555.png" width="80" alt="Play Store Logo">
+    <div class="title">Google Redeem Code</div>
 
-    <br><br>
+    <!-- তোমার দেওয়া Google Play ইমেজ লিংক -->
+    <img class="logo" src="https://i.ibb.co/xKrRCQDC/20250529-085555.png" alt="Google Play Logo">
 
-    <button id="generateBtn">Generate</button>
-    <button id="verifyBtn" style="display:none;">Verify</button>
+    <button id="generateBtn" class="btn">Generate</button>
+    <button id="verifyBtn" class="btn" style="display:none;">Verify</button>
 
-    <div id="loadingText"></div>
+    <div id="loadingText" class="loading"></div>
 
     <div id="codeBox">
+      <p>✅ Verified!</p>
       <p>🎉 Redeem Code Generated</p>
       <input type="text" id="generatedCode" readonly>
-      <br>
-      <button id="copyBtn" onclick="copyCode()">COPY</button>
+      <button class="btn" onclick="copyCode()">COPY</button>
     </div>
   </div>
 
@@ -79,21 +102,16 @@
     const loadingText = document.getElementById("loadingText");
     const generatedCode = document.getElementById("generatedCode");
 
-    let verifiedOnce = false;
-
     generateBtn.addEventListener("click", () => {
       generateBtn.style.display = "none";
       verifyBtn.style.display = "inline-block";
     });
 
     verifyBtn.addEventListener("click", () => {
-      if (verifiedOnce) return;
-
       loadingText.innerText = "⏳ Verifying...";
       verifyBtn.disabled = true;
 
       setTimeout(() => {
-        verifiedOnce = true;
         loadingText.innerHTML = "✅ Verified!";
         codeBox.style.display = "block";
         generatedCode.value = generateCode();
@@ -117,6 +135,5 @@
       alert("Copied: " + generatedCode.value);
     }
   </script>
-
 </body>
 </html>
