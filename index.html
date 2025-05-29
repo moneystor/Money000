@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Google Redeem Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Redeem Code Generator</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #a100ff, #00bfff);
+      background: linear-gradient(135deg, #a100ff, #00aaff);
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -16,33 +17,35 @@
     }
 
     .container {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
+      background-color: white;
+      padding: 30px 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       width: 90%;
-      max-width: 400px;
+      max-width: 350px;
     }
 
-    h2 {
+    h1 {
+      font-size: 24px;
       margin-bottom: 20px;
     }
 
-    .logo {
-      width: 80px;
+    img {
+      width: 60px;
       margin-bottom: 20px;
     }
 
     button {
       background-color: #555;
       color: white;
-      padding: 10px 20px;
-      font-size: 16px;
       border: none;
-      border-radius: 10px;
+      padding: 10px 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-size: 16px;
       cursor: pointer;
-      margin-bottom: 20px;
+      transition: background-color 0.3s;
     }
 
     button:disabled {
@@ -50,39 +53,45 @@
       cursor: not-allowed;
     }
 
-    input {
-      width: 80%;
+    button:hover:enabled {
+      background-color: #333;
+    }
+
+    #codeContainer {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #redeemCode {
+      width: 100%;
       padding: 10px;
       font-size: 16px;
-      margin-bottom: 15px;
+      text-align: center;
       border-radius: 8px;
       border: 1px solid #ccc;
-      text-align: center;
+      margin-bottom: 10px;
     }
 
     #copyBtn {
       background-color: #00c853;
     }
 
-    #codeContainer {
-      display: none;
-      flex-direction: column;
-      align-items: center;
+    #copyBtn:hover {
+      background-color: #009624;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Google Redeem Code</h2>
-    <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Play Logo">
+    <h1>Google Redeem Code</h1>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Google_Play_2022_icon.svg/512px-Google_Play_2022_icon.svg.png" alt="Google Play Logo">
 
     <button id="startButton">Start</button>
-    <button id="verifyButton" style="display:none;">Verify</button>
+    <button id="verifyButton" style="display: none;">Verify</button>
 
     <div id="codeContainer">
-      <p><strong>🎉 Redeem Code Generated</strong></p>
       <input type="text" id="redeemCode" readonly>
-      <button id="copyBtn" onclick="copyCode()">COPY</button>
+      <button id="copyBtn" onclick="copyCode()">Copy</button>
     </div>
   </div>
 
@@ -110,7 +119,7 @@
         verifyButton.innerText = "✅ Verified!";
         verifyButton.style.backgroundColor = "#28a745";
         verifyButton.style.cursor = "default";
-        codeContainer.style.display = "flex";
+        codeContainer.style.display = "block";
         redeemCodeInput.value = generateCode();
       }, 2000);
     });
@@ -133,4 +142,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
