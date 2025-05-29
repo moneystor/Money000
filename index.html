@@ -20,64 +20,93 @@
       padding: 30px;
       border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+    img.logo {
+      max-width: 120px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
     }
     input {
       width: 100%;
       padding: 12px;
-      margin: 15px 0;
+      margin: 10px 0;
+      border-radius: 8px;
       border: 1px solid #ccc;
-      border-radius: 10px;
       font-size: 16px;
     }
     button {
-      background: linear-gradient(to right, #FF416C, #833AB4);
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #ff416c, #6a5af9);
       color: white;
-      padding: 12px 30px;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
-      transition: 0.3s ease;
-    }
-    button:hover {
-      opacity: 0.9;
     }
     .steps {
       margin-top: 20px;
-      font-size: 14px;
+      text-align: left;
       color: #666;
-    }
-    .logo {
-      width: 120px;
-      margin-bottom: 20px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="https://i.postimg.cc/yYbKgmXN/2f5e612e0c094bf8a2e6b6c5451aff1d.png" alt="KukuFM Logo" class="logo" />
-    <h2>Deposit & Get ₹40 UPI Cash Instant</h2>
-    <input type="text" id="upi" placeholder="Enter Your UPI ID">
-    <button onclick="submitUPI()">SUBMIT</button>
+    <img src="https://i.postimg.cc/zXxj9mLb/xlogo.png" alt="Logo" class="logo" />
+    <h2>Deposit & Get ₹90 UPI Cash Instant</h2>
+    <form id="upiForm">
+      <input type="text" id="upiId" name="upi" placeholder="Enter Your UPI ID" required />
+      <button type="submit">SUBMIT</button>
+    </form>
     <div class="steps">
-      <p>1. Enter your UPI ID & click Submit</p>
-      <p>2. Install & open the app</p>
-      <p>3. Register & deposit</p>
-      <p>Done! You'll get ₹40 UPI Cash</p>
+      <p>1. Enter your UPI ID & click Submit button.</p>
+      <p>2. Click on Download and install the app.</p>
+      <p>3. Enter your phone number and confirm it with a OTP.</p>
+      <p>4. Put in your name.</p>
+      <p>5. Tap on "Add Cash" at the top right corner.</p>
+      <p>6. Add atleast 50 INR.</p>
+      <p><strong>Done!</strong> You'll get ₹90 UPI Cash instant.</p>
     </div>
   </div>
 
   <script>
-    function submitUPI() {
-      const upi = document.getElementById('upi').value;
-      if (!upi.includes("@")) {
+    document.getElementById("upiForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const upiId = document.getElementById("upiId").value.trim();
+      if (!upiId.includes("@")) {
         alert("Please enter a valid UPI ID.");
         return;
       }
-      const url = `https://api.frizza.in/api/v1/5970C9C6D0ACf9g7eC9jg5ef76gh:A7jf?upi=${upi}`;
-      window.location.href = url;
-    }
+      const submitButton = e.target.querySelector("button");
+      submitButton.textContent = "Loading...";
+      submitButton.disabled = true;
+
+      fetch("https://app-api.kickcash.in/api/v1/6BB8C00D0A6h076C7hjB::9fhBiBCiAj", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ upi: upiId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert("Submitted successfully!");
+        submitButton.textContent = "SUBMIT";
+        submitButton.disabled = false;
+      })
+      .catch(err => {
+        alert("There was an error. Try again.");
+        submitButton.textContent = "SUBMIT";
+        submitButton.disabled = false;
+      });
+    });
   </script>
 </body>
-</html>
+  </html>
