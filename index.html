@@ -7,124 +7,139 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      background: linear-gradient(135deg, #a000c8, #3d8eff);
-      color: #000;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #a100ff, #3c9eff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
     .container {
-      background: #fff;
-      margin: 100px auto;
+      background: white;
+      border-radius: 20px;
       padding: 30px 20px;
       width: 90%;
-      max-width: 350px;
-      border-radius: 30px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .title {
-      border: 2px solid gray;
-      border-radius: 12px;
-      display: inline-block;
-      padding: 5px 10px;
+    h2 {
       margin-bottom: 20px;
-      font-weight: bold;
     }
     img {
       width: 80px;
-      margin: 20px 0;
+      margin-bottom: 20px;
     }
-    .button {
-      background: #00cc44;
-      color: black;
-      font-size: 22px;
-      padding: 10px 30px;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      margin-top: 20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    }
-    .loading {
+    button {
+      padding: 10px 20px;
+      margin: 10px 0;
       font-size: 18px;
-      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
     }
-    #code-box {
+    #startButton {
+      background-color: #007bff;
+      color: white;
+    }
+    #verifyButton {
+      background-color: #6c757d;
+      color: white;
+      display: none;
+    }
+    #verifyButton:disabled {
+      cursor: not-allowed;
+    }
+    #statusMessage {
+      margin-top: 10px;
+      font-size: 18px;
+    }
+    #codeContainer {
+      display: none;
       margin-top: 20px;
+    }
+    #redeemCode {
+      width: 100%;
       padding: 10px;
       font-size: 18px;
-      border: 2px solid #ccc;
-      border-radius: 20px;
-      display: inline-block;
-      min-width: 200px;
-      background: #f9f9f9;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 10px;
     }
-    #copy-btn {
-      margin-top: 15px;
+    #copyButton {
+      background-color: #00c851;
+      color: black;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <div class="title">Google Redeem Code</div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Play_2016_icon.svg" alt="Google Play Logo" />
+    <h2>Google Redeem Code</h2>
+    <img src="https://i.ibb.co/xKrRCQDC/20250529-085555.png" alt="Google Play" />
+    <button id="startButton">Generate</button>
+    <button id="verifyButton">Verify</button>
+    <div id="statusMessage"></div>
     
-    <div id="buttons-area">
-      <button class="button" id="mainBtn">Generate</button>
-    </div>
-    
-    <div id="loading" class="loading" style="display: none;">⏳ Please wait...</div>
-    <div id="success-area" style="display: none;">
-      <h3>🎉 Redeem Code Generated</h3>
-      <div id="code-box">XXXX-XXXX-XXXX</div>
-      <br />
-      <button class="button" id="copy-btn">COPY</button>
+    <div id="codeContainer">
+      <p>🎉 Redeem Code Generated</p>
+      <input type="text" id="redeemCode" readonly />
+      <button id="copyButton" onclick="copyCode()">COPY</button>
     </div>
   </div>
 
   <script>
-    const mainBtn = document.getElementById("mainBtn");
-    const loading = document.getElementById("loading");
-    const buttonsArea = document.getElementById("buttons-area");
-    const successArea = document.getElementById("success-area");
-    const codeBox = document.getElementById("code-box");
-    const copyBtn = document.getElementById("copy-btn");
+    const startButton = document.getElementById("startButton");
+    const verifyButton = document.getElementById("verifyButton");
+    const codeContainer = document.getElementById("codeContainer");
+    const statusMessage = document.getElementById("statusMessage");
+    const redeemCodeInput = document.getElementById("redeemCode");
 
-    let isReturning = localStorage.getItem("user_returned");
+    let hasVerified = false;
 
-    // Change button to "Verify" if user already generated before
-    if (isReturning) {
-      mainBtn.innerText = "Verify ✅";
-    }
+    startButton.addEventListener("click", () => {
+      startButton.style.display = "none";
+      verifyButton.style.display = "inline-block";
+    });
 
-    mainBtn.addEventListener("click", () => {
-      loading.style.display = "block";
-      buttonsArea.style.display = "none";
+    verifyButton.addEventListener("click", () => {
+      if (hasVerified) return;
 
-      // Simulate API delay
+      statusMessage.innerText = "⏳ Verifying...";
+      verifyButton.disabled = true;
+
       setTimeout(() => {
-        loading.style.display = "none";
-        successArea.style.display = "block";
-        codeBox.innerText = generateFakeCode();
-        localStorage.setItem("user_returned", true); // Mark user as returned
+        hasVerified = true;
+
+        verifyButton.innerHTML = "✅ Verified!";
+        verifyButton.style.backgroundColor = "#28a745";
+        verifyButton.style.cursor = "default";
+        verifyButton.disabled = true;
+
+        statusMessage.innerText = "";
+        codeContainer.style.display = "block";
+        redeemCodeInput.value = generateCode();
       }, 2000);
     });
 
-    copyBtn.addEventListener("click", () => {
-      navigator.clipboard.writeText(codeBox.innerText);
-      alert("Copied!");
-    });
-
-    function generateFakeCode() {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let code = "";
-      for (let i = 0; i < 12; i++) {
-        code += chars[Math.floor(Math.random() * chars.length)];
-        if (i === 3 || i === 7) code += "-";
+    function generateCode() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let code = '';
+      for (let i = 0; i < 16; i++) {
+        code += characters.charAt(Math.floor(Math.random() * characters.length));
+        if ((i + 1) % 4 === 0 && i !== 15) code += '-';
       }
       return code;
     }
-  </script>
 
+    function copyCode() {
+      redeemCodeInput.select();
+      redeemCodeInput.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      alert("Copied: " + redeemCodeInput.value);
+    }
+  </script>
 </body>
 </html>
