@@ -18,7 +18,7 @@
     .container {
       background: white;
       border-radius: 30px;
-      padding: 30px;
+      padding: 30px 20px;
       text-align: center;
       width: 90%;
       max-width: 400px;
@@ -31,11 +31,12 @@
       display: inline-block;
       font-size: 20px;
       font-weight: bold;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
     .logo {
       width: 80px;
-      margin: 15px auto;
+      margin: 20px auto;
+      display: block;
     }
     .btn {
       padding: 12px 25px;
@@ -47,6 +48,9 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
     .btn:disabled {
       background: gray;
@@ -56,19 +60,18 @@
       display: none;
     }
     #generatedCode {
-      padding: 10px;
+      padding: 12px;
       border: 2px solid #ccc;
       border-radius: 15px;
-      margin-top: 10px;
-      width: 80%;
+      width: 90%;
       font-size: 18px;
-    }
-    #verifyBtn {
-      margin-top: 15px;
+      text-align: center;
+      margin: 10px auto;
     }
     .loading {
       font-size: 16px;
-      color: #999;
+      color: #555;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -76,7 +79,8 @@
   <div class="container">
     <div class="title">Google Redeem Code</div>
 
-    <img class="logo" src="https://i.ibb.co/QFpYFcW4/google-play-store-logo-1273375-804.jpg" alt="Google Play Logo">
+    <!-- তোমার দেওয়া Google Play ইমেজ লিংক -->
+    <img class="logo" src="https://i.ibb.co/xKrRCQDC/20250529-085555.png" alt="Google Play Logo">
 
     <button id="generateBtn" class="btn">Generate</button>
     <button id="verifyBtn" class="btn" style="display:none;">Verify</button>
@@ -84,9 +88,9 @@
     <div id="loadingText" class="loading"></div>
 
     <div id="codeBox">
+      <p>✅ Verified!</p>
       <p>🎉 Redeem Code Generated</p>
       <input type="text" id="generatedCode" readonly>
-      <br>
       <button class="btn" onclick="copyCode()">COPY</button>
     </div>
   </div>
@@ -104,7 +108,7 @@
     });
 
     verifyBtn.addEventListener("click", () => {
-      loadingText.innerText = "Verifying...";
+      loadingText.innerText = "⏳ Verifying...";
       verifyBtn.disabled = true;
 
       setTimeout(() => {
