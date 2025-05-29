@@ -1,124 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Deposit Offer</title>
+  <meta charset="UTF-8">
+  <title>Deposit & Get ₹90 UPI Cash</title>
   <style>
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #7F00FF, #00C9FF);
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
+      background: linear-gradient(to bottom right, #a18cd1, #fbc2eb);
       text-align: center;
-      width: 90%;
-      max-width: 400px;
+      padding: 20px;
     }
-    img.logo {
-      max-width: 120px;
-      margin-bottom: 20px;
-      border-radius: 10px;
+    img {
+      width: 100px;
+      margin: 20px auto;
     }
-    h2 {
-      font-size: 22px;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    .submit-wrapper {
-      display: flex;
-      justify-content: center;
+      margin-bottom: 20px;
     }
     button {
-      width: 60%;
-      padding: 12px;
+      padding: 10px 25px;
       background: linear-gradient(to right, #ff416c, #ff4b2b);
-      color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      color: white;
+      border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s;
     }
     button:hover {
-      background: linear-gradient(to right, #ff4b2b, #ff416c);
+      opacity: 0.9;
     }
     .steps {
-      margin-top: 20px;
+      margin-top: 30px;
       text-align: left;
-      color: #444;
-      font-size: 14px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="https://i.ibb.co/KdR0hS5/images.png" alt="Logo" class="logo" />
-    <h2>Deposit & Get ₹90 UPI Cash Instant</h2>
-    <form id="upiForm">
-      <input type="text" id="upiId" name="upi" placeholder="Enter Your UPI ID" required />
-      <div class="submit-wrapper">
-        <button type="submit">SUBMIT</button>
-      </div>
-    </form>
-    <div class="steps">
-      <p>1. Enter your UPI ID & click Submit button.</p>
-      <p>2. Click on Download and install the app.</p>
-      <p>3. Enter your phone number and confirm it with a OTP.</p>
-      <p>4. Put in your name.</p>
-      <p>5. Tap on "Add Cash" at the top right corner.</p>
-      <p>6. Add atleast 50 INR.</p>
-      <p><strong>Done!</strong> You'll get ₹90 UPI Cash instant.</p>
-    </div>
+
+  <img src="https://i.ibb.co/KdR0hS5/images.png" alt="Logo">
+
+  <h2>Deposit & Get ₹90 UPI Cash Instant</h2>
+
+  <input type="text" id="upiInput" placeholder="Enter Your UPI ID">
+  <br>
+  <button onclick="submitUPI()">SUBMIT</button>
+
+  <div class="steps">
+    <p>1. Enter your UPI ID & click Submit button.</p>
+    <p>2. Click on Download and install the app.</p>
+    <p>3. Enter your phone number and confirm it with a OTP.</p>
+    <p>4. Put in your name.</p>
+    <p>5. Tap on "Add Cash" at the top right corner.</p>
+    <p>6. Add atleast 50 INR.</p>
+    <p><strong>Done!</strong> You'll get ₹90 UPI Cash instant.</p>
   </div>
 
   <script>
-    document.getElementById("upiForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const upiId = document.getElementById("upiId").value.trim();
-      if (!upiId.includes("@")) {
-        alert("Please enter a valid UPI ID.");
+    function submitUPI() {
+      const upiId = document.getElementById("upiInput").value;
+      if (!upiId) {
+        alert("Please enter your UPI ID");
         return;
       }
-      const submitButton = e.target.querySelector("button");
-      submitButton.textContent = "Loading...";
-      submitButton.disabled = true;
 
-      fetch("https://app-api.kickcash.in/api/v1/6BB8C00D0A6h076C7hjB::9fhBiBCiAj", {
+      const encodedURL = encodeURI("https://app-api.kickcash.in/api/v1/6BB8C00D0A6h076C7hjB::9fhBiBCiAj");
+
+      fetch(encodedURL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ upi: upiId })
       })
-      .then(res => res.json())
+      .then(response => response.json())
       .then(data => {
-        alert("Submitted successfully!");
-        submitButton.textContent = "SUBMIT";
-        submitButton.disabled = false;
+        alert("Submitted successfully. Response: " + JSON.stringify(data));
       })
-      .catch(err => {
-        alert("There was an error. Try again.");
-        submitButton.textContent = "SUBMIT";
-        submitButton.disabled = false;
+      .catch(error => {
+        alert("Error submitting UPI ID. Please try again later.");
+        console.error(error);
       });
-    });
+    }
   </script>
+
 </body>
 </html>
