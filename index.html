@@ -47,7 +47,10 @@
       transition:background 0.3s;
     }
     button:hover:not(:disabled) { background:#00b140; }
-    button:disabled { background:gray; cursor:not-allowed; }
+    button:disabled {
+      background:gray;
+      cursor:not-allowed;
+    }
     #codeContainer {
       display:none;
       flex-direction:column;
@@ -97,13 +100,19 @@
     verifyButton.addEventListener("click", () => {
       if (hasVerified) return;
       hasVerified = true;
-      verifyButton.disabled = true;
+
+      // Show verifying... and disable
       verifyButton.innerText = "Verifying...";
+      verifyButton.disabled = true;
 
       setTimeout(() => {
-        verifyButton.disabled = false;
+        // Change to Verified ✅ with gray background
         verifyButton.innerText = "Verified ✅";
-        // note: no backgroundColor change here
+        verifyButton.style.backgroundColor = "gray";
+        // keep disabled so it remains gray
+        verifyButton.disabled = true;
+
+        // Show code box
         codeContainer.style.display = "flex";
         redeemCode.value = generateCode();
       }, 2000);
@@ -111,12 +120,12 @@
 
     function generateCode() {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let c = '';
+      let code = '';
       for (let i = 0; i < 16; i++) {
-        c += chars.charAt(Math.floor(Math.random()*chars.length));
-        if ((i+1)%4===0 && i!==15) c += '-';
+        code += chars.charAt(Math.floor(Math.random()*chars.length));
+        if ((i+1)%4===0 && i!==15) code += '-';
       }
-      return c;
+      return code;
     }
 
     function copyCode() {
