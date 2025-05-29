@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Google Redeem Code</title>
   <style>
     body {
@@ -24,10 +24,6 @@
       max-width: 400px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-    .logo {
-      width: 80px;
-      margin-bottom: 20px;
-    }
     .title {
       background: #f2f2f2;
       padding: 10px 20px;
@@ -36,6 +32,10 @@
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 15px;
+    }
+    .logo {
+      width: 80px;
+      margin: 15px auto;
     }
     .btn {
       padding: 12px 25px;
@@ -75,6 +75,7 @@
 <body>
   <div class="container">
     <div class="title">Google Redeem Code</div>
+
     <img class="logo" src="https://i.ibb.co/QFpYFcW4/google-play-store-logo-1273375-804.jpg" alt="Google Play Logo">
 
     <button id="generateBtn" class="btn">Generate</button>
@@ -97,10 +98,7 @@
     const loadingText = document.getElementById("loadingText");
     const generatedCode = document.getElementById("generatedCode");
 
-    let codeGenerated = false;
-
     generateBtn.addEventListener("click", () => {
-      // Hide generate button, show verify
       generateBtn.style.display = "none";
       verifyBtn.style.display = "inline-block";
     });
@@ -134,4 +132,4 @@
     }
   </script>
 </body>
-                                           </html>
+</html>
