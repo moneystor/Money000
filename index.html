@@ -103,7 +103,7 @@
       setTimeout(() => {
         verifyButton.disabled = false;
         verifyButton.innerText = "Verified ✅";
-        verifyButton.style.backgroundColor = "#28a745";
+        // note: no backgroundColor change here
         codeContainer.style.display = "flex";
         redeemCode.value = generateCode();
       }, 2000);
@@ -114,7 +114,7 @@
       let c = '';
       for (let i = 0; i < 16; i++) {
         c += chars.charAt(Math.floor(Math.random()*chars.length));
-        if ((i+1)%4===0 && i!==15) c+='-';
+        if ((i+1)%4===0 && i!==15) c += '-';
       }
       return c;
     }
