@@ -7,27 +7,30 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      text-align: center;
+      font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #a000c8, #3d8eff);
       color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
     .container {
       background: #fff;
-      margin: 100px auto;
       padding: 30px 20px;
       width: 90%;
       max-width: 350px;
       border-radius: 30px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
     .title {
       border: 2px solid gray;
       border-radius: 12px;
-      display: inline-block;
       padding: 5px 10px;
-      margin-bottom: 20px;
       font-weight: bold;
+      display: inline-block;
+      margin-bottom: 15px;
     }
     img {
       width: 80px;
@@ -47,90 +50,91 @@
     .loading {
       font-size: 18px;
       margin-top: 15px;
+      display: none;
+    }
+    #success {
+      display: none;
     }
     #code-box {
-      margin-top: 20px;
+      margin: 20px 0;
       padding: 10px;
       font-size: 18px;
       border: 2px solid #ccc;
       border-radius: 20px;
+      background: #f0f0f0;
       display: inline-block;
       min-width: 200px;
-      background: #f9f9f9;
-    }
-    #copy-btn {
-      margin-top: 15px;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="title">Google Redeem Code</div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Play_2016_icon.svg" alt="Google Play Logo" />
-    
-    <div id="buttons-area">
-      <button class="button" id="mainBtn">Generate</button>
-    </div>
-    
-    <div id="loading" class="loading" style="display: none;">⏳ Please wait...</div>
-    <div id="success-area" style="display: none;">
-      <h3>🎉 Redeem Code Generated</h3>
-      <div id="code-box">XXXX-XXXX-XXXX</div>
-      <br />
-      <button class="button" id="copy-btn">COPY</button>
-    </div>
+<div class="container">
+  <div class="title">Google Redeem Code</div>
+  <br>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Play_2016_icon.svg" alt="Google Play Logo" />
+
+  <div id="buttons">
+    <button class="button" id="actionBtn">Generate</button>
   </div>
 
-  <script>
-    const mainBtn = document.getElementById("mainBtn");
-    const loading = document.getElementById("loading");
-    const buttonsArea = document.getElementById("buttons-area");
-    const successArea = document.getElementById("success-area");
-    const codeBox = document.getElementById("code-box");
-    const copyBtn = document.getElementById("copy-btn");
+  <div id="loading" class="loading">⏳ Please wait...</div>
 
-    const apiURL = "https://api.frizza.in/api/v1/5970C9C6D0A6hfj8fBAAhf9e0AjBgfjij";
+  <div id="success">
+    <h3>🎉 Redeem Code Generated</h3>
+    <div id="code-box">XXXX-XXXX-XXXX</div>
+    <br />
+    <button class="button" id="copyBtn">COPY</button>
+  </div>
+</div>
 
-    let isReturning = localStorage.getItem("user_returned");
+<script>
+  const actionBtn = document.getElementById('actionBtn');
+  const loading = document.getElementById('loading');
+  const success = document.getElementById('success');
+  const codeBox = document.getElementById('code-box');
+  const copyBtn = document.getElementById('copyBtn');
+  const buttons = document.getElementById('buttons');
 
-    // Show Verify if returning
-    if (isReturning) {
-      mainBtn.innerText = "Verify ✅";
-    }
+  const apiURL = "https://api.frizza.in/api/v1/5970C9C6D0A6hfj8fBAAhf9e0AjBgfjij";
 
-    mainBtn.addEventListener("click", async () => {
-      loading.style.display = "block";
-      buttonsArea.style.display = "none";
+  // প্রথমবার কি না চেক করো
+  const userReturned = localStorage.getItem("visitedBefore");
+  if (userReturned) {
+    actionBtn.innerText = "Verify ✅";
+  }
 
-      try {
-        const response = await fetch(apiURL);
-        if (!response.ok) throw new Error("API Error");
+  actionBtn.addEventListener('click', async () => {
+    buttons.style.display = "none";
+    loading.style.display = "block";
 
-        const data = await response.json(); // assuming JSON response
-        const code = data?.code || "ABCD-1234-EFGH"; // fallback
+    try {
+      const response = await fetch(apiURL);
+      const result = await response.text(); // যদি JSON হয়, .json() ব্যবহার করো
+      const code = result || "XXXX-XXXX-XXXX";
 
-        // Show success
+      setTimeout(() => {
         loading.style.display = "none";
-        successArea.style.display = "block";
+        success.style.display = "block";
         codeBox.innerText = code;
+        localStorage.setItem("visitedBefore", "true");
+      }, 2000); // লোডিং একটু বাস্তব দেখাতে delay
+    } catch (err) {
+      loading.innerText = "❌ Code fetch failed!";
+      setTimeout(() => {
+        loading.style.display = "none";
+        buttons.style.display = "block";
+        loading.innerText = "⏳ Please wait...";
+      }, 2500);
+    }
+  });
 
-        localStorage.setItem("user_returned", true);
-      } catch (error) {
-        loading.innerText = "❌ Failed to fetch code!";
-        setTimeout(() => {
-          loading.style.display = "none";
-          buttonsArea.style.display = "block";
-          loading.innerText = "⏳ Please wait...";
-        }, 2500);
-      }
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(codeBox.innerText).then(() => {
+      alert("✅ Code copied to clipboard!");
     });
-
-    copyBtn.addEventListener("click", () => {
-      navigator.clipboard.writeText(codeBox.innerText);
-      alert("Copied to clipboard!");
-    });
-  </script>
+  });
+</script>
 
 </body>
 </html>
