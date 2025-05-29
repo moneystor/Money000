@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google Redeem Code</title>
   <style>
     body {
@@ -10,20 +10,20 @@
       padding: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(to right, #9b00d5, #427eff);
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
     }
 
     .container {
       background: white;
       border-radius: 30px;
       padding: 30px;
+      text-align: center;
       width: 90%;
       max-width: 400px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     }
 
     .title {
@@ -36,48 +36,49 @@
       display: inline-block;
     }
 
-    .logo {
+    .logo-wrapper img {
       width: 80px;
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
 
     .btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
+      padding: 12px 25px;
       font-size: 18px;
-      margin: 10px 0;
       border: none;
       border-radius: 30px;
       background: #00d44c;
       color: white;
       font-weight: bold;
       cursor: pointer;
+      margin-top: 20px;
     }
 
     .btn:disabled {
       background: gray;
+      cursor: not-allowed;
     }
 
-    .loading {
+    #loadingText {
+      margin-top: 15px;
       font-size: 16px;
       color: #999;
-      margin-top: 10px;
     }
 
-    #codeBox {
+    #codeContainer {
       display: none;
       margin-top: 20px;
+      flex-direction: column;
+      align-items: center;
     }
 
-    #generatedCode {
+    #redeemCode {
       padding: 10px;
+      font-size: 18px;
+      width: 80%;
+      margin: 10px auto;
       border: 2px solid #ccc;
       border-radius: 15px;
-      width: 100%;
-      font-size: 18px;
       text-align: center;
-      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -85,16 +86,18 @@
   <div class="container">
     <div class="title">Google Redeem Code</div>
 
-    <img class="logo" src="https://i.ibb.co/QFpYFcW4/google-play-store-logo-1273375-804.jpg" alt="Google Play Logo">
+    <div class="logo-wrapper">
+      <img src="https://i.ibb.co/QFpYFcW4/google-play-store-logo-1273375-804.jpg" alt="Google Play Logo" />
+    </div>
 
     <button id="generateBtn" class="btn">Generate</button>
-    <button id="verifyBtn" class="btn" style="display:none;">Verify</button>
+    <button id="verifyBtn" class="btn" style="display: none;">Verify</button>
 
-    <div id="loadingText" class="loading"></div>
+    <div id="loadingText"></div>
 
-    <div id="codeBox">
+    <div id="codeContainer">
       <p>🎉 Redeem Code Generated</p>
-      <input type="text" id="generatedCode" readonly>
+      <input type="text" id="redeemCode" readonly />
       <button class="btn" onclick="copyCode()">COPY</button>
     </div>
   </div>
@@ -102,23 +105,23 @@
   <script>
     const generateBtn = document.getElementById("generateBtn");
     const verifyBtn = document.getElementById("verifyBtn");
+    const codeContainer = document.getElementById("codeContainer");
     const loadingText = document.getElementById("loadingText");
-    const codeBox = document.getElementById("codeBox");
-    const generatedCode = document.getElementById("generatedCode");
+    const redeemCode = document.getElementById("redeemCode");
 
     generateBtn.addEventListener("click", () => {
       generateBtn.style.display = "none";
-      verifyBtn.style.display = "block";
+      verifyBtn.style.display = "inline-block";
     });
 
     verifyBtn.addEventListener("click", () => {
-      verifyBtn.disabled = true;
       loadingText.innerText = "Verifying...";
+      verifyBtn.disabled = true;
 
       setTimeout(() => {
-        loadingText.innerText = "✅ Verified!";
-        codeBox.style.display = "block";
-        generatedCode.value = generateCode();
+        loadingText.innerHTML = "✅ Verified!";
+        codeContainer.style.display = "flex";
+        redeemCode.value = generateCode();
       }, 2000);
     });
 
@@ -133,10 +136,10 @@
     }
 
     function copyCode() {
-      generatedCode.select();
-      generatedCode.setSelectionRange(0, 99999);
+      redeemCode.select();
+      redeemCode.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      alert("Copied: " + generatedCode.value);
+      alert("Copied: " + redeemCode.value);
     }
   </script>
 </body>
