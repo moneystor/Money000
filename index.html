@@ -1,93 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Deposit & Get ₹90 UPI Cash</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Google Redeem Code</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom right, #a18cd1, #fbc2eb);
+      margin: 0;
+      font-family: 'Arial', sans-serif;
       text-align: center;
-      padding: 20px;
+      background: linear-gradient(135deg, #a000c8, #3d8eff);
+      color: #000;
+    }
+    .container {
+      background: #fff;
+      margin: 100px auto;
+      padding: 30px 20px;
+      width: 90%;
+      max-width: 350px;
+      border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .title {
+      border: 2px solid gray;
+      border-radius: 12px;
+      display: inline-block;
+      padding: 5px 10px;
+      margin-bottom: 20px;
+      font-weight: bold;
     }
     img {
-      width: 100px;
-      margin: 20px auto;
+      width: 80px;
+      margin: 20px 0;
     }
-    input[type="text"] {
-      padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      margin-bottom: 20px;
-    }
-    button {
-      padding: 10px 25px;
-      background: linear-gradient(to right, #ff416c, #ff4b2b);
+    .button {
+      background: #00cc44;
+      color: black;
+      font-size: 22px;
+      padding: 10px 30px;
+      border-radius: 30px;
       border: none;
-      color: white;
-      border-radius: 5px;
-      font-weight: bold;
       cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
-    button:hover {
-      opacity: 0.9;
+    .loading {
+      font-size: 18px;
+      margin-top: 15px;
     }
-    .steps {
-      margin-top: 30px;
-      text-align: left;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
+    #code-box {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 18px;
+      border: 2px solid #ccc;
+      border-radius: 20px;
+      display: inline-block;
+      min-width: 200px;
+      background: #f9f9f9;
+    }
+    #copy-btn {
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
 
-  <img src="https://i.ibb.co/KdR0hS5/images.png" alt="Logo">
-
-  <h2>Deposit & Get ₹90 UPI Cash Instant</h2>
-
-  <input type="text" id="upiInput" placeholder="Enter Your UPI ID">
-  <br>
-  <button onclick="submitUPI()">SUBMIT</button>
-
-  <div class="steps">
-    <p>1. Enter your UPI ID & click Submit button.</p>
-    <p>2. Click on Download and install the app.</p>
-    <p>3. Enter your phone number and confirm it with a OTP.</p>
-    <p>4. Put in your name.</p>
-    <p>5. Tap on "Add Cash" at the top right corner.</p>
-    <p>6. Add atleast 50 INR.</p>
-    <p><strong>Done!</strong> You'll get ₹90 UPI Cash instant.</p>
+  <div class="container">
+    <div class="title">Google Redeem Code</div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Play_2016_icon.svg" alt="Google Play Logo" />
+    
+    <div id="buttons-area">
+      <button class="button" id="mainBtn">Generate</button>
+    </div>
+    
+    <div id="loading" class="loading" style="display: none;">⏳ Please wait...</div>
+    <div id="success-area" style="display: none;">
+      <h3>🎉 Redeem Code Generated</h3>
+      <div id="code-box">XXXX-XXXX-XXXX</div>
+      <br />
+      <button class="button" id="copy-btn">COPY</button>
+    </div>
   </div>
 
   <script>
-    function submitUPI() {
-      const upiId = document.getElementById("upiInput").value;
-      if (!upiId) {
-        alert("Please enter your UPI ID");
-        return;
+    const mainBtn = document.getElementById("mainBtn");
+    const loading = document.getElementById("loading");
+    const buttonsArea = document.getElementById("buttons-area");
+    const successArea = document.getElementById("success-area");
+    const codeBox = document.getElementById("code-box");
+    const copyBtn = document.getElementById("copy-btn");
+
+    let isReturning = localStorage.getItem("user_returned");
+
+    // Change button to "Verify" if user already generated before
+    if (isReturning) {
+      mainBtn.innerText = "Verify ✅";
+    }
+
+    mainBtn.addEventListener("click", () => {
+      loading.style.display = "block";
+      buttonsArea.style.display = "none";
+
+      // Simulate API delay
+      setTimeout(() => {
+        loading.style.display = "none";
+        successArea.style.display = "block";
+        codeBox.innerText = generateFakeCode();
+        localStorage.setItem("user_returned", true); // Mark user as returned
+      }, 2000);
+    });
+
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(codeBox.innerText);
+      alert("Copied!");
+    });
+
+    function generateFakeCode() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let code = "";
+      for (let i = 0; i < 12; i++) {
+        code += chars[Math.floor(Math.random() * chars.length)];
+        if (i === 3 || i === 7) code += "-";
       }
-
-      const encodedURL = encodeURI("https://app-api.kickcash.in/api/v1/6BB8C00D0A6h076C7hjB::9fhBiBCiAj");
-
-      fetch(encodedURL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ upi: upiId })
-      })
-      .then(response => response.json())
-      .then(data => {
-        alert("Submitted successfully. Response: " + JSON.stringify(data));
-      })
-      .catch(error => {
-        alert("Error submitting UPI ID. Please try again later.");
-        console.error(error);
-      });
+      return code;
     }
   </script>
 
