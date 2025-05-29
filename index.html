@@ -90,40 +90,46 @@
     const codeBox = document.getElementById("code-box");
     const copyBtn = document.getElementById("copy-btn");
 
+    const apiURL = "https://api.frizza.in/api/v1/5970C9C6D0A6hfj8fBAAhf9e0AjBgfjij";
+
     let isReturning = localStorage.getItem("user_returned");
 
-    // Change button to "Verify" if user already generated before
+    // Show Verify if returning
     if (isReturning) {
       mainBtn.innerText = "Verify ✅";
     }
 
-    mainBtn.addEventListener("click", () => {
+    mainBtn.addEventListener("click", async () => {
       loading.style.display = "block";
       buttonsArea.style.display = "none";
 
-      // Simulate API delay
-      setTimeout(() => {
+      try {
+        const response = await fetch(apiURL);
+        if (!response.ok) throw new Error("API Error");
+
+        const data = await response.json(); // assuming JSON response
+        const code = data?.code || "ABCD-1234-EFGH"; // fallback
+
+        // Show success
         loading.style.display = "none";
         successArea.style.display = "block";
-        codeBox.innerText = generateFakeCode();
-        localStorage.setItem("user_returned", true); // Mark user as returned
-      }, 2000);
+        codeBox.innerText = code;
+
+        localStorage.setItem("user_returned", true);
+      } catch (error) {
+        loading.innerText = "❌ Failed to fetch code!";
+        setTimeout(() => {
+          loading.style.display = "none";
+          buttonsArea.style.display = "block";
+          loading.innerText = "⏳ Please wait...";
+        }, 2500);
+      }
     });
 
     copyBtn.addEventListener("click", () => {
       navigator.clipboard.writeText(codeBox.innerText);
-      alert("Copied!");
+      alert("Copied to clipboard!");
     });
-
-    function generateFakeCode() {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let code = "";
-      for (let i = 0; i < 12; i++) {
-        code += chars[Math.floor(Math.random() * chars.length)];
-        if (i === 3 || i === 7) code += "-";
-      }
-      return code;
-    }
   </script>
 
 </body>
