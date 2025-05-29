@@ -5,26 +5,30 @@
   <title>Google Redeem Code</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
     body {
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background: linear-gradient(to right, #9b00d5, #427eff);
       font-family: Arial, sans-serif;
     }
     .container {
-      background:#fff;
-      padding:30px 20px;
-      border-radius:12px;
-      text-align:center;
-      box-shadow:0 4px 10px rgba(0,0,0,0.2);
-      width:90%;
-      max-width:320px;
+      /* Full-screen */
+      width: 100vw;
+      height: 100vh;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
     h2 {
       background:#f2f2f2;
-      padding:10px;
+      padding:10px 20px;
       border-radius:8px;
       margin-bottom:20px;
     }
@@ -33,11 +37,9 @@
       margin-bottom:20px;
     }
     button {
-      display:block;
-      width:100%;
-      max-width:200px;
-      margin:15px auto 0;
+      width: 200px;
       padding:10px 0;
+      margin-top:15px;
       font-size:16px;
       color:#fff;
       background:#00d44c;
@@ -58,7 +60,7 @@
       margin-top:20px;
     }
     #redeemCode {
-      width:100%;
+      width:200px;
       padding:10px;
       font-size:18px;
       text-align:center;
@@ -74,6 +76,7 @@
     <div class="logo-wrapper">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Logo">
     </div>
+
     <button id="startButton">Generate</button>
     <button id="verifyButton" style="display:none;">Verify</button>
 
@@ -101,18 +104,12 @@
       if (hasVerified) return;
       hasVerified = true;
 
-      // Show verifying... and disable
       verifyButton.innerText = "Verifying...";
       verifyButton.disabled = true;
 
       setTimeout(() => {
-        // Change to Verified ✅ with gray background
         verifyButton.innerText = "Verified ✅";
         verifyButton.style.backgroundColor = "gray";
-        // keep disabled so it remains gray
-        verifyButton.disabled = true;
-
-        // Show code box
         codeContainer.style.display = "flex";
         redeemCode.value = generateCode();
       }, 2000);
