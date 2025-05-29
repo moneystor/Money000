@@ -89,7 +89,6 @@
   </div>
 
   <script>
-    // Generate button redirect link
     const GENERATE_URL = 'https://m.centefinance.life/?rel=uodkbnhi';
 
     const generateBtn   = document.getElementById('generateButton');
@@ -97,7 +96,7 @@
     const codeContainer = document.getElementById('codeContainer');
     const redeemCode    = document.getElementById('redeemCode');
 
-    // On page load, decide which button to show
+    // পেজ লোডে বোতনগুলো চেক
     window.addEventListener('DOMContentLoaded', () => {
       if (localStorage.getItem('generated') === 'true') {
         generateBtn.style.display = 'none';
@@ -105,10 +104,14 @@
       }
     });
 
-    // Generate: set flag and redirect
+    // Generate: Btn-এ loading দেখাবে, তারপর redirect
     generateBtn.addEventListener('click', () => {
-      localStorage.setItem('generated','true');
-      window.location.href = GENERATE_URL;
+      generateBtn.disabled   = true;
+      generateBtn.innerText  = 'Loading...';
+      setTimeout(() => {
+        localStorage.setItem('generated','true');
+        window.location.href = GENERATE_URL;
+      }, 800);
     });
 
     // Verify logic
@@ -121,10 +124,10 @@
       verifyBtn.disabled    = true;
 
       setTimeout(() => {
-        verifyBtn.innerText            = 'Verified ✅';
+        verifyBtn.innerText             = 'Verified ✅';
         verifyBtn.style.backgroundColor = 'gray';
-        codeContainer.style.display    = 'flex';
-        redeemCode.value               = generateCode();
+        codeContainer.style.display     = 'flex';
+        redeemCode.value                = generateCode();
       }, 2000);
     });
 
