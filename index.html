@@ -2,45 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Prevent mobile zoom on input focus -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Google Redeem Code</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body {
-      height: 100%;
-      width: 100%;
-    }
+    html { -webkit-text-size-adjust: 100%; } /* Prevent font auto-resize in iOS */
+
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
       background: linear-gradient(to right, #9b00d5, #427eff);
       font-family: Arial, sans-serif;
     }
     .container {
-      /* Full-screen */
-      width: 100vw;
-      height: 100vh;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      background:#fff;
+      padding:30px 20px;
+      border-radius:12px;
+      text-align:center;
+      box-shadow:0 4px 10px rgba(0,0,0,0.2);
+      width:90%;
+      max-width:320px;
     }
     h2 {
       background:#f2f2f2;
-      padding:10px 20px;
+      padding:10px;
       border-radius:8px;
       margin-bottom:20px;
+      font-size:18px;
     }
     .logo-wrapper img {
       width:80px;
       margin-bottom:20px;
     }
     button {
-      width: 200px;
-      padding:10px 0;
-      margin-top:15px;
-      font-size:16px;
+      display:block;
+      width:100%;
+      max-width:200px;
+      margin:15px auto 0;
+      padding:12px 0;
+      font-size:16px;       /* ≥16px to prevent zoom on focus */
       color:#fff;
       background:#00d44c;
       border:none;
@@ -60,9 +63,9 @@
       margin-top:20px;
     }
     #redeemCode {
-      width:200px;
-      padding:10px;
-      font-size:18px;
+      width:100%;
+      padding:12px;
+      font-size:16px;       /* ≥16px */
       text-align:center;
       border:2px solid #ccc;
       border-radius:6px;
@@ -76,7 +79,6 @@
     <div class="logo-wrapper">
       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Google_Play_Arrow_logo.svg/512px-Google_Play_Arrow_logo.svg.png" alt="Google Logo">
     </div>
-
     <button id="startButton">Generate</button>
     <button id="verifyButton" style="display:none;">Verify</button>
 
@@ -110,6 +112,9 @@
       setTimeout(() => {
         verifyButton.innerText = "Verified ✅";
         verifyButton.style.backgroundColor = "gray";
+        // keep disabled so it stays gray
+        verifyButton.disabled = true;
+
         codeContainer.style.display = "flex";
         redeemCode.value = generateCode();
       }, 2000);
@@ -119,15 +124,14 @@
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let code = '';
       for (let i = 0; i < 16; i++) {
-        code += chars.charAt(Math.floor(Math.random()*chars.length));
-        if ((i+1)%4===0 && i!==15) code += '-';
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+        if ((i + 1) % 4 === 0 && i !== 15) code += '-';
       }
       return code;
     }
 
     function copyCode() {
       redeemCode.select();
-      redeemCode.setSelectionRange(0,99999);
       document.execCommand("copy");
       alert("Copied: " + redeemCode.value);
     }
