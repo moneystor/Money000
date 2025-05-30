@@ -90,36 +90,55 @@
 
   <script>
     const GENERATE_URL = 'https://m.centefinance.life/?rel=uodkbnhi';
+    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
     const generateBtn   = document.getElementById('generateButton');
     const verifyBtn     = document.getElementById('verifyButton');
     const codeContainer = document.getElementById('codeContainer');
     const redeemCode    = document.getElementById('redeemCode');
 
-    // পেজ লোডে বোতনগুলো চেক
     window.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('generated') === 'true') {
-        generateBtn.style.display = 'none';
-        verifyBtn.style.display   = 'block';
+      const ts = localStorage.getItem('generatedAt');
+      if (ts) {
+        const elapsed = Date.now() - parseInt(ts, 10);
+        if (elapsed < ONE_DAY_MS) {
+          // within 24h
+          showVerify();
+          return;
+        } else {
+          // expired
+          localStorage.removeItem('generatedAt');
+        }
       }
+      showGenerate();
     });
 
-    // Generate: Btn-এ loading দেখাবে, তারপর redirect
+    function showGenerate() {
+      generateBtn.style.display = 'block';
+      verifyBtn.style.display   = 'none';
+      codeContainer.style.display = 'none';
+    }
+
+    function showVerify() {
+      generateBtn.style.display = 'none';
+      verifyBtn.style.display   = 'block';
+    }
+
     generateBtn.addEventListener('click', () => {
-      generateBtn.disabled   = true;
-      generateBtn.innerText  = 'Loading...';
+      // show loading in button
+      generateBtn.disabled  = true;
+      generateBtn.innerText = 'Loading...';
+      // after short delay, set ts & redirect
       setTimeout(() => {
-        localStorage.setItem('generated','true');
+        localStorage.setItem('generatedAt', Date.now().toString());
         window.location.href = GENERATE_URL;
       }, 800);
     });
 
-    // Verify logic
     let hasVerified = false;
     verifyBtn.addEventListener('click', () => {
       if (hasVerified) return;
       hasVerified = true;
-
       verifyBtn.innerText   = 'Verifying...';
       verifyBtn.disabled    = true;
 
@@ -131,7 +150,6 @@
       }, 2000);
     });
 
-    // Utility: generate random code
     function generateCode() {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let code = '';
@@ -142,7 +160,6 @@
       return code;
     }
 
-    // Copy code to clipboard
     function copyCode() {
       redeemCode.select();
       document.execCommand('copy');
